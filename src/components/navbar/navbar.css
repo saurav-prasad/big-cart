@@ -1,0 +1,95 @@
+/* Navbar */
+.navbar {
+    padding: 20px 20px;
+    position: relative;
+    background-color: rgb(96 165 250 / 28%);
+    justify-content: space-between;
+}
+
+/* Navbar Left */
+.navbarLeft {}
+
+.navbarBurger {
+    margin-right: 15px;
+    cursor: pointer;
+    display: none !important;
+    font-size: 1.8rem !important;
+
+    @media(max-width: 700px) {
+        display: block !important;
+    }
+}
+
+.navTitle {
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+.navLists {
+    margin: 0;
+}
+
+@media(max-width: 700px) {
+    .navLists {
+        margin: 0;
+        display: none !important;
+
+    }
+}
+
+.navList {
+    padding: 5px;
+    font-weight: 500;
+    margin-right: 15px;
+    list-style: none;
+}
+
+/* Navbar Right */
+.navbarRight {
+    font-weight: 500;
+}
+
+.navbarUser {
+    padding: 5px;
+}
+
+.navbarOrder {
+    padding: 5px;
+    margin: 0 15px;
+}
+
+.navbarCart {}
+
+/* Sidebar */
+.navbarSidebar {
+    overflow-y: scroll;
+    padding: 12vh 0;
+    transition: all 0.4s ease;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    z-index: 100;
+    width: 60vw;
+    height: 100vh;
+}
+
+.navbarClose {
+    position: absolute;
+    right: 10%;
+    top: 5%;
+    cursor: pointer;
+    z-index: 30;
+    font-size: 2rem !important;
+}
+
+.navbarSidebar ul li {
+    cursor: pointer;
+    text-align: left;
+    list-style: none;
+}
+
+.navbarSidebar ul li p {
+    margin: 35px 0;
+}
