@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import './navbar.css'
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
-import { styled } from 'styled-components';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import ShoppingCartRoundedIcon from '@mui/icons-material/ShoppingCartRounded';
 
 function Navbar() {
   const [Nav, setNav] = useState(false)
@@ -25,27 +24,31 @@ function Navbar() {
         <div className='navbarRight flexCenter'>
           <span className='cursorPointer navbarUser'>User</span>
           <span className='cursorPointer navbarOrder'>Orders</span>
-          <ShoppingCartOutlinedIcon className='cursorPointer navbarCart' />
+          <ShoppingCartRoundedIcon className='cursorPointer navbarCart' />
         </div>
         {/* Sidebar */}
-
         <div
           style={{
             transform: `${Nav ? 'translateX(0%)' : 'translateX(-100%)'}`
           }}
-          className='navbarSidebar flexCenter'>
-            <CloseRoundedIcon className='navbarClose' onClick={() => setNav(false)} />
-            <ul>
-              <li><strong>Top Categories</strong></li>
-              {
-                category.map(data => <li><p>{data}</p></li>)
-              }
-              <li><p><strong>My Orders</strong></p></li>
-            </ul>
+          className='navbarSidebar'>
+          <CloseRoundedIcon className='navbarClose' onClick={() => setNav(false)} />
+          <ul>
+            <li><strong>Top Categories</strong></li>
+            {
+              category.map(data => <li><p>{data}</p></li>)
+            }
+            <li><p><strong>My Orders</strong></p></li>
+          </ul>
         </div>
+        <div
+          style={{
+            display: `${Nav ? 'block' : 'none'}`
+          }}
+          className='navbarSidebarBackground'
+          onClick={() => setNav(false)} />
 
       </nav>
-
     </>
   )
 }

@@ -9,7 +9,6 @@
 
 .App {
   text-align: center;
-  max-width: 1500px;
   margin:0 auto;
 }
 .flexCenter{
@@ -19,4 +18,7 @@
 }
 .cursorPointer{
   cursor: pointer;
+}
+.maxWidth{
+  max-width: 1200px;
 }
