@@ -1,12 +1,14 @@
 import React from 'react'
 import Navbar from '../navbar/Navbar'
 import ProductListing from '../productListing/ProductListing'
+import ProductDetail from '../productDetail/ProductDetail'
 
 function Home() {
   return (
     <div>
       <Navbar />
-      <ProductListing/>
+      <ProductDetail />
+      <ProductListing />
     </div>
   )
 }

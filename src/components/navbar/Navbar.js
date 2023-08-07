@@ -3,9 +3,11 @@ import './navbar.css'
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ShoppingCartRoundedIcon from '@mui/icons-material/ShoppingCartRounded';
+import Cart from '../cart/Cart';
 
 function Navbar() {
   const [Nav, setNav] = useState(false)
+  const [cart, setCart] = useState(false)
   const category = ['Home', 'Watches', 'Phones', 'Shirts']
   return (
     <>
@@ -24,7 +26,7 @@ function Navbar() {
         <div className='navbarRight flexCenter'>
           <span className='cursorPointer navbarUser'>User</span>
           <span className='cursorPointer navbarOrder'>Orders</span>
-          <ShoppingCartRoundedIcon className='cursorPointer navbarCart' />
+          <ShoppingCartRoundedIcon onClick={() => setCart(true)} className='cursorPointer navbarCart' />
         </div>
         {/* Sidebar */}
         <div
@@ -47,8 +49,8 @@ function Navbar() {
           }}
           className='navbarSidebarBackground'
           onClick={() => setNav(false)} />
-
       </nav>
+      {cart && <Cart  setCart={setCart} />}
     </>
   )
 }
