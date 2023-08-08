@@ -5,7 +5,10 @@
     background-color: #364354;
     color: white;
     font-weight: 600;
-
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 7;
 }
 
 /* Navbar Left */
@@ -26,15 +29,19 @@
     margin: 0;
     font-size: 1.4rem;
 }
+
 @media(max-width: 350px) {
     .navTitle {
-      font-size: 1rem;
+        font-size: 1rem;
     }
-    .navbarUser,.navbarOrder {
+
+    .navbarUser,
+    .navbarOrder {
         padding: 5px;
         font-size: 0.8rem;
     }
 }
+
 .navLists {
     margin: 0;
     margin-left: 20px;

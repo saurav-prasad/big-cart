@@ -72,7 +72,7 @@ const products = [
   // More products...
 ]
 
-export default function Cart2({setCart}) {
+export default function Cart2({ setCart }) {
   const [open, setOpen] = useState(true)
   setCart(open)
 
