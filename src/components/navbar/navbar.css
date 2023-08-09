@@ -48,11 +48,12 @@
 }
 
 @media(max-width: 700px) {
-    .navLists {
+    .navLists, .navbarOrder{
         margin: 0;
         display: none !important;
 
     }
+    
 }
 
 .navList {

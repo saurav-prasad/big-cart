@@ -9,6 +9,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import db from '../../firebase';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { useUserState } from '../../context/UserState';
+import { Tab } from '@headlessui/react'
 
 function Navbar() {
   const [user, dispatch] = useUserState()
