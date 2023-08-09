@@ -1,8 +1,26 @@
 import React from 'react'
 import './productListing.css'
 import Card from '../card/Card'
+import { collection, getDocs } from 'firebase/firestore'
+import db from '../../firebase'
+// import getCollectionItems from '../../getCollectionItems'
 
 function ProductListing() {
+// pending here ++++++++++++++++++++++++++++++++++++++++++
+    const getCollectionItems = async (uid, coll) => {
+        let a = []
+        // // Query a reference to a subcollection
+        const querySnapshot = await getDocs(collection(db, "products", uid, coll));
+        querySnapshot.forEach((doc) => {
+            //     // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+            a.push(doc.data())
+        });
+        console.log(a);
+        return a
+    }
+    getCollectionItems('N0jvArXgedj36O6tQPdV', 'phones')
+
     const products = [
         {
             id: 1,
@@ -53,7 +71,7 @@ function ProductListing() {
                 <h2 className="text-3xl mb-12 font-bold tracking-tight text-gray-900">Our Products</h2>
 
                 <div className=" mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-8">
-                    {products.map((product) => <Card key={product.key} product={product}/>)}
+                    {products.map((product) => <Card key={product.key} product={product} />)}
                 </div>
             </div>
         </div>

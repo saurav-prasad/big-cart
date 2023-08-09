@@ -9,10 +9,10 @@ import { doc, setDoc } from 'firebase/firestore';
 import db from '../../firebase';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { useUserState } from '../../context/UserState';
-import { Tab } from '@headlessui/react'
+import getCollectionItems from '../../getCollectionItems';
 
 function Navbar() {
-  const [user, dispatch] = useUserState()
+  const [{ userDetails }, dispatch] = useUserState()
   const [Nav, setNav] = useState(false)
   const [cart, setCart] = useState(false)
   const category = ['Home', 'Watches', 'Phones', 'Shirts']
@@ -20,7 +20,6 @@ function Navbar() {
 
   const loginUser = async () => {
     // Example usage
-    console.log("object");
     (async () => {
       try {
         const userDetail = await googleLogin();
@@ -37,14 +36,11 @@ function Navbar() {
     })
     localStorage.clear()
     setUserInfo()
-    console.log(user);
   }
   // userInfo details upload query
   useEffect(() => {
-    console.log(user);
     async function fetchData() {
       if (userInfo) {
-        console.log("object", userInfo.uid);
         await setDoc(doc(db, "users", userInfo.uid), {
           userDetails: {
             name: userInfo.displayName,
@@ -56,7 +52,13 @@ function Navbar() {
         localStorage.setItem('uid', userInfo.uid)
         dispatch({
           type: 'SET_USER',
-          user: userInfo,
+          userDetails: {
+            name: userInfo.displayName,
+            email: userInfo.email,
+            photo: userInfo.photoURL,
+            uid: userInfo.uid,
+          },
+          cart: await getCollectionItems(userInfo.uid, "cart")
         })
       }
     }
@@ -80,9 +82,9 @@ function Navbar() {
         {/* Navbar Right */}
         <div className='navbarRight flexCenter'>
 
-          {userInfo ?
+          {userDetails ?
             <span className='cursorPointer flexCenter text-white navbarUser'>
-              {userInfo.displayName}
+              {userDetails.name}
               <LogoutRoundedIcon onClick={logOutUser} style={{ marginLeft: '5px' }} />
             </span> :
             <span className='cursorPointer flexCenter text-white navbarUser' onClick={loginUser}>
@@ -91,7 +93,7 @@ function Navbar() {
           }
 
           <span className='cursorPointer navbarOrder'>Orders</span>
-          <ShoppingCartRoundedIcon onClick={() => setCart(true)} className='cursorPointer navbarCart' />
+          <ShoppingCartRoundedIcon onClick={() => setCart(true)} className='ml-2 cursorPointer navbarCart' />
         </div>
         {/* Sidebar */}
         <div
