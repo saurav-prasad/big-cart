@@ -10,12 +10,33 @@ import db from '../../firebase';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { useUserState } from '../../context/UserState';
 import getCollectionItems from '../../firestoreQuery/getCollectionItems';
+import { Link } from 'react-router-dom';
 
+const category = [
+  {
+    name: 'Home',
+  },
+  {
+    name: 'phone',
+    href: '/category/phones'
+  },
+  {
+    name: 'Camera',
+    href: '/category/camera'
+  },
+  {
+    name: 'Clothing',
+    href: '/category/clothing'
+  },
+  {
+    name: 'Laptop',
+    href: '/category/laptop'
+  },
+]
 function Navbar() {
   const [{ userDetails }, dispatch] = useUserState()
   const [Nav, setNav] = useState(false)
   const [cart, setCart] = useState(false)
-  const category = ['Home', 'Watches', 'Phones', 'Shirts']
   const [userInfo, setUserInfo] = useState()
 
   const loginUser = async () => {
@@ -65,7 +86,9 @@ function Navbar() {
     fetchData();
   }, [userInfo])
 
-
+  // category.map((data) => {
+  //   console.log(data);
+  // })
   return (
     <>
       <nav className='navbar flexCenter' >
@@ -76,7 +99,7 @@ function Navbar() {
 
           <h1 className='navTitle'>Big-Cart</h1>
           <ul className='flexCenter navLists'>
-            {category.map(data => <li className='navList cursorPointer'><a>{data}</a></li>)}
+            {category.map(data => <li className='navList cursorPointer'><Link to={data.href}>{data.name}</Link></li>)}
           </ul>
         </div>
         {/* Navbar Right */}
@@ -105,7 +128,7 @@ function Navbar() {
           <ul>
             <li><strong>Top Categories</strong></li>
             {
-              category.map(data => <li><p>{data}</p></li>)
+              category.map(data => <li><p>{data.name}</p></li>)
             }
             <li><p><strong>My Orders</strong></p></li>
           </ul>

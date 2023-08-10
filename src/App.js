@@ -67,15 +67,15 @@ function App() {
         {
           path: "/",
           element: <ProductListing />,
-          
+
         },
         {
-          path: "/category/phones",
-          element: <ProductListing category='phones'/>,
+          path: "/category/:categoryname",
+          element: <ProductListing />,
         },
         {
           path: "/detail/:productid",
-          element: <ProductDetail category='phones'/>,
+          element: <ProductDetail />,
         },
       ],
     },
@@ -83,7 +83,7 @@ function App() {
   return (
     <>
       <div className="App">
-        <RouterProvider router={router}/>
+        <RouterProvider router={router} />
       </div>
     </>
   );

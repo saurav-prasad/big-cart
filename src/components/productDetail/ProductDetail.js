@@ -15,12 +15,16 @@ export default function ProductDetail() {
     const params = useParams()
 
     useEffect(() => {
-        const a = products?.filter((data) => {
-            return data.productId === params.productid
-        })
-        setProduct(a[0])
-        console.log(a[0]);
-    }, [])
+        const filteredProducts = products?.filter((data) => {
+            return data.productId === params.productid;
+        });
+
+        if (filteredProducts && filteredProducts.length > 0) {
+            setProduct(filteredProducts[0]);
+        } else {
+            setProduct({});
+        }
+    }, [products, params.productid])
 
     return (
         <>
@@ -51,7 +55,7 @@ export default function ProductDetail() {
                                         <h1 className="text-2xl mb-3 text-left font-bold tracking-tight text-gray-900 sm:text-3xl">{product?.name}</h1>
                                         <FavoriteIcon className='cardWish cursorPointer' />
                                     </div>
-                                    <div className="lg:col-span-2 justify-between align-middle flex pr-3  lg:pr-8">
+                                    <div className="lg:col-span-2 mt-3 justify-between align-middle flex pr-3  lg:pr-8">
                                         <p className="text-3xl tracking-tight text-left text-gray-900">₹{currencyFormatter(product?.price)}</p>
                                         {/* Quantity */}
                                         <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
