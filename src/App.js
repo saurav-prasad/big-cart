@@ -1,16 +1,38 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Home from './components/home/Home';
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import db from './firebase';
 import { useUserState } from './context/UserState';
-import getCollectionItems from './getCollectionItems';
+import getCollectionItems from './firestoreQuery/getCollectionItems';
+import getProducts from './firestoreQuery/getProducts';
+import { useProductState } from './context/products/ProductState';
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements, useRoutes } from 'react-router-dom';
+import ProductListing from './components/productListing/ProductListing';
+import ProductDetail from './components/productDetail/ProductDetail';
+
+const category = ['phones', 'laptop', 'clothing', 'camera']
+
 
 function App() {
-  const [{ userDetails }, dispatch] = useUserState()
-  // test
+  const [{ }, dispatch] = useUserState()
+  const [{ products }, productDispatch] = useProductState()
 
+  // all the products
+  const fetchProducts = async () => {
+    let tempo = [];
+    for (const data of category) {
+      const products = await getProducts(data);
+      tempo = tempo.concat(products);
+    }
+    productDispatch({
+      type: 'SET_PRODUCT',
+      products: tempo
+    })
+    // console.log(tempo);
+  }
 
+  // user data
   const getUser = async () => {
     const docRef = doc(db, "users", localStorage.getItem('uid'));
     const docSnap = await getDoc(docRef);
@@ -32,13 +54,38 @@ function App() {
     }
   }
   useEffect(() => {
+    fetchProducts()
     localStorage.getItem('uid') && getUser()
   }, [])
 
+  // routes
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Home />,
+      children: [
+        {
+          path: "/",
+          element: <ProductListing />,
+          
+        },
+        {
+          path: "/category/phones",
+          element: <ProductListing category='phones'/>,
+        },
+        {
+          path: "/detail/:productid",
+          element: <ProductDetail category='phones'/>,
+        },
+      ],
+    },
+  ]);
   return (
-    <div className="App">
-      <Home />
-    </div>
+    <>
+      <div className="App">
+        <RouterProvider router={router}/>
+      </div>
+    </>
   );
 }
 

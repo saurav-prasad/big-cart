@@ -9,7 +9,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import db from '../../firebase';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { useUserState } from '../../context/UserState';
-import getCollectionItems from '../../getCollectionItems';
+import getCollectionItems from '../../firestoreQuery/getCollectionItems';
 
 function Navbar() {
   const [{ userDetails }, dispatch] = useUserState()
