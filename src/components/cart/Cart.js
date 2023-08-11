@@ -1,28 +1,31 @@
 import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import getCollectionItems from '../../firestoreQuery/getCollectionItems';
 import Loader from '../loader/Loader';
 import { useUserState } from '../../context/UserState';
 import currencyFormatter from '../../currencyFormatter/currencyFormatter';
-
+import './cart.css'
+import deleteFromSubcollection from '../../firestoreQuery/deleteFromSubcollection';
+import getRealTimeSubcolletion from '../../firestoreQuery/getRealTimeSubcolletion';
+import { useNavigate } from 'react-router-dom';
 
 export default function Cart({ setCart }) {
+  const navigate = useNavigate()
   const [{ userDetails, cart }, dispatch] = useUserState()
   const [data, setData] = useState()
   let a = 0
   data?.map((product) =>
-    a = a + product.price * product.quantity
+    a = a + product.price * product.qnt
   )
   useEffect(() => {
     async function fetchData() {
       if (userDetails) {
-        const a = await getCollectionItems(userDetails?.uid, "cart")
+        const a = await getRealTimeSubcolletion('users', userDetails?.uid, 'cart')
         setData(a)
       }
     }
     fetchData()
-  }, [])
+  }, [data])
 
   const [open, setOpen] = useState(true)
   setCart(open)
@@ -44,7 +47,7 @@ export default function Cart({ setCart }) {
 
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full cartMain">
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500 sm:duration-700"
@@ -56,7 +59,7 @@ export default function Cart({ setCart }) {
               >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                    <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+                    <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 cartScroll">
                       <div className="flex items-start justify-between">
                         <Dialog.Title className="text-lg font-medium text-gray-900">Shopping cart</Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
@@ -81,7 +84,8 @@ export default function Cart({ setCart }) {
                                   <img
                                     src={product.imageSrc}
                                     alt={product.imageAlt}
-                                    className="h-full w-full object-cover object-center"
+                                    className="h-full w-full object-contain object-center"
+                                    onClick={() => { navigate(`/detail/${product.productId}`);setOpen(false)}}
                                   />
                                 </div>
 
@@ -91,17 +95,18 @@ export default function Cart({ setCart }) {
                                       <h3>
                                         <a href={product.href}>{product.name}</a>
                                       </h3>
-                                      <p className="ml-4">₹{currencyFormatter(product.price * product.quantity)}</p>
+                                      <p className="ml-4">₹{currencyFormatter(product.price * product.qnt)}</p>
                                     </div>
                                     <p className="mt-1 text-sm text-gray-500">{product.color}</p>
                                   </div>
                                   <div className="flex flex-1 items-end justify-between text-sm">
-                                    <p className="text-gray-500">Qty {product.quantity}</p>
+                                    <p className="text-gray-500">Qty {product.qnt}</p>
 
                                     <div className="flex">
                                       <button
                                         type="button"
                                         className="font-medium text-indigo-600 hover:text-indigo-500"
+                                        onClick={(e) => { e.preventDefault(); deleteFromSubcollection(product.id) }}
                                       >
                                         Remove
                                       </button>
@@ -123,7 +128,6 @@ export default function Cart({ setCart }) {
                         <p>Subtotal</p>
                         <p>₹{currencyFormatter(a)}</p>
                       </div>
-                      <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                       <div className="mt-6">
                         <a
                           href="#"

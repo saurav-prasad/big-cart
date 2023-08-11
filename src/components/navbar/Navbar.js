@@ -11,6 +11,8 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { useUserState } from '../../context/UserState';
 import getCollectionItems from '../../firestoreQuery/getCollectionItems';
 import { Link } from 'react-router-dom';
+import sliceString from '../../sliceString/sliceString';
+import getRealTimeSubcollection from '../../firestoreQuery/getRealTimeSubcolletion';
 
 const category = [
   {
@@ -38,7 +40,7 @@ function Navbar() {
   const [Nav, setNav] = useState(false)
   const [cart, setCart] = useState(false)
   const [userInfo, setUserInfo] = useState()
-
+  const [cartLength, setcartLength] = useState(0)
   const loginUser = async () => {
     // Example usage
     (async () => {
@@ -83,12 +85,12 @@ function Navbar() {
         })
       }
     }
+
     fetchData();
   }, [userInfo])
 
-  // category.map((data) => {
-  //   console.log(data);
-  // })
+
+  const userName = userDetails?.name
   return (
     <>
       <nav className='navbar flexCenter' >
@@ -97,7 +99,7 @@ function Navbar() {
 
           <MenuRoundedIcon onClick={() => setNav(true)} className='navbarBurger' />
 
-          <h1 className='navTitle'>Big-Cart</h1>
+          <h1 className='navTitle'><Link to='/'>Big-Cart</Link></h1>
           <ul className='flexCenter navLists'>
             {category.map(data => <li className='navList cursorPointer'><Link to={data.href}>{data.name}</Link></li>)}
           </ul>
@@ -107,7 +109,7 @@ function Navbar() {
 
           {userDetails ?
             <span className='cursorPointer flexCenter text-white navbarUser'>
-              {userDetails.name}
+              {sliceString(userName, 8)}
               <LogoutRoundedIcon onClick={logOutUser} style={{ marginLeft: '5px' }} />
             </span> :
             <span className='cursorPointer flexCenter text-white navbarUser' onClick={loginUser}>
@@ -116,6 +118,7 @@ function Navbar() {
           }
 
           <span className='cursorPointer navbarOrder'>Orders</span>
+
           <ShoppingCartRoundedIcon onClick={() => setCart(true)} className='ml-2 cursorPointer navbarCart' />
         </div>
         {/* Sidebar */}
@@ -128,7 +131,7 @@ function Navbar() {
           <ul>
             <li><strong>Top Categories</strong></li>
             {
-              category.map(data => <li><p>{data.name}</p></li>)
+              category.map(data => <li onClick={() => setNav(false)} ><Link to={data.href}><p>{data.name}</p></Link></li>)
             }
             <li><p><strong>My Orders</strong></p></li>
           </ul>

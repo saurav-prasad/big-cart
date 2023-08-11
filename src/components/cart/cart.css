@@ -1,0 +1,11 @@
+.cartMain{
+    padding-left: 2.5rem;
+}
+.cartScroll::-webkit-scrollbar{
+    display: none;
+}
+@media (max-width: 360px) {
+    .cartMain{
+        padding: 0;
+    }
+}

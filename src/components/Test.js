@@ -1,18 +1,16 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
-import './productDetail.css'
-import { useProductState } from '../../context/products/ProductState';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Loader from '../loader/Loader';
-import currencyFormatter from '../../currencyFormatter/currencyFormatter';
-import sliceString from '../../sliceString/sliceString';
-import addToSubCollection from '../../firestoreQuery/addToSubCollection';
-import Alrt from '../alrt/Alrt';
+import { useProductState } from '../context/products/ProductState';
+import addToSubCollection from '../firestoreQuery/addToSubCollection';
+import sliceString from '../sliceString/sliceString';
+import Alrt from './alrt/Alrt';
+import Loader from './loader/Loader';
+import currencyFormatter from '../currencyFormatter/currencyFormatter';
 
-
-export default function ProductDetail() {
+function Test() {
     const [text, settext] = useState(false)
     const [alert, setAlert] = useState(null)
     const [{ products },] = useProductState()
@@ -48,6 +46,7 @@ export default function ProductDetail() {
             setAlert(null);
         }, 800)
     }
+
     return (
         <>
             {products ?
@@ -65,26 +64,26 @@ export default function ProductDetail() {
                         {/* </div> */}
                         <div className="col-span-4 pt-8 lg:pt-0">
                             <div className=" border-b border-gray-300 text-left pb-7">
-                                <h2 className="text-heading mb-3.5 text-lg font-medium md:text-xl lg:text-2xl 2xl:text-3xl" onClick={() => text ? settext(false) : settext(true)}>
-                                    {text ? product.name : sliceString(product.name, 50)}
+                                <h2 className="text-heading mb-3.5 text-lg font-bold md:text-xl lg:text-2xl 2xl:text-3xl">
+                                    Nike Air Max 95 By You *TODO*
                                 </h2>
                                 <p className="text-body text-sm leading-6  lg:text-base lg:leading-8" onClick={() => text ? settext(false) : settext(true)}>
-                                    {text ? product.description : sliceString(product.description, 80)}
+                                    {text ? name : sliceString(name, 50)}
                                 </p>
                                 <div className="mt-5 flex items-center ">
                                     <div className="text-heading pr-2 text-base font-bold md:pr-0 md:text-xl lg:pr-2 lg:text-2xl 2xl:pr-0 2xl:text-4xl">
                                         ₹{currencyFormatter(product?.price)}
                                     </div>
                                     <span className="font-segoe pl-2 text-sm text-gray-400 line-through md:text-base lg:text-lg xl:text-xl">
-                                        {product?.discountPrice && `₹${currencyFormatter(product?.discountPrice)}`}
+                                        {product?.discountPrice && `₹${currencyFormatter(product?.discountPrice)}`}TODO
                                     </span>
                                 </div>
                             </div>
-                            <div className="space-s-4 3xl:pr-48 flex items-center gap-2 border-b border-gray-300 py-8  md:pr-0 lg:pr-0 2xl:pr-0">
+                            <div className="space-s-4 3xl:pr-48 flex items-center gap-2 border-b border-gray-300 py-8  md:pr-32 lg:pr-12 2xl:pr-32">
                                 <div className="mr-2 group flex h-11 flex-shrink-0 items-center justify-between overflow-hidden rounded-md border border-gray-300 md:h-12">
                                     <button onClick={() => { qnt > 1 && setQnt(qnt - 1) }}
                                         className="text-heading hover:bg-heading flex h-full w-10 flex-shrink-0 items-center justify-center border-e border-gray-300 transition duration-300 ease-in-out focus:outline-none md:w-12"
-                                        
+                                        disabled
                                     >
                                         -
                                     </button>
@@ -123,7 +122,7 @@ export default function ProductDetail() {
                                             className="hover:text-heading inline-block pr-1.5 transition last:pr-0 hover:underline"
                                             href="#"
                                         >
-                                            {product.tags && product?.tags  }
+                                            Sneakers
                                         </a>
                                     </li>
                                 </ul>
@@ -155,3 +154,5 @@ export default function ProductDetail() {
         </>
     )
 }
+
+export default Test

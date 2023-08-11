@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import Home from './components/home/Home';
-import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import db from './firebase';
 import { useUserState } from './context/UserState';
 import getCollectionItems from './firestoreQuery/getCollectionItems';
@@ -15,6 +15,7 @@ const category = ['phones', 'laptop', 'clothing', 'camera']
 
 
 function App() {
+
   const [{ }, dispatch] = useUserState()
   const [{ products }, productDispatch] = useProductState()
 

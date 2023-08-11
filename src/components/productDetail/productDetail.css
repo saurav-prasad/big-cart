@@ -1,0 +1,12 @@
+.productDetail {
+    max-width: 1200px !important;
+    margin: 0 auto;
+}
+
+.productDetailDetail {
+    max-width: 500px;
+}
+
+.productDetailLove {
+    font-size: 1.9rem !important;
+}
