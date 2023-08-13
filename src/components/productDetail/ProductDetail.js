@@ -66,7 +66,7 @@ export default function ProductDetail() {
                         <div className="col-span-4 pt-8 lg:pt-0">
                             <div className=" border-b border-gray-300 text-left pb-7">
                                 <h2 className="text-heading mb-3.5 text-lg font-medium md:text-xl lg:text-2xl 2xl:text-3xl" onClick={() => text ? settext(false) : settext(true)}>
-                                    {text ? product.name : sliceString(product.name, 50)}
+                                    {text ? product.name : sliceString(product.name, 40)}
                                 </h2>
                                 <p className="text-body text-sm leading-6  lg:text-base lg:leading-8" onClick={() => text ? settext(false) : settext(true)}>
                                     {text ? product.description : sliceString(product.description, 80)}
