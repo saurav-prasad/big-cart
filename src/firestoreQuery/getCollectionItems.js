@@ -6,8 +6,6 @@ const getCollectionItems = async (uid, coll) => {
     // Query a reference to a subcollection
     const querySnapshot = await getDocs(collection(db, "users", uid, coll));
     querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        // console.log(doc.id, " => ", doc.data());
         a.push({ ...doc.data(), id: doc.id })
     });
     return a

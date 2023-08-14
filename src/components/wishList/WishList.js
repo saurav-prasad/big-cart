@@ -35,11 +35,11 @@ function WishList() {
     useEffect(() => {
         async function fetchData() {
             if (userDetails) {
-                const a = await getRealTimeSubcollection('users', userDetails?.uid, 'wishList')
+                const a = await getRealTimeSubcollection('users', localStorage.getItem('uid'), 'wishList')
                 setdata(a)
             }
         }
-        return () => fetchData()
+        fetchData()
     })
 
     return (
