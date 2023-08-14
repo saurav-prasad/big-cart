@@ -7,7 +7,6 @@ export const actionTypes = {
 }
 
 const userReducer = (state, action) => {
-    // console.log("userReducer", action);
     switch (action.type) {
         case actionTypes.setUser:
             return {
@@ -16,7 +15,6 @@ const userReducer = (state, action) => {
                 cart: action?.cart,
                 wishList: action?.wishList,
                 orders: action?.orders,
-                products: action?.products,
             }
         case actionTypes.unsetUser:
             return { user: null }

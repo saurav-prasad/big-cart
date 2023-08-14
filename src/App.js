@@ -10,6 +10,10 @@ import { useProductState } from './context/products/ProductState';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements, useRoutes } from 'react-router-dom';
 import ProductListing from './components/productListing/ProductListing';
 import ProductDetail from './components/productDetail/ProductDetail';
+import WishList from './components/wishList/WishList';
+import { ErrorPage } from './components/404Page/ErrorPage';
+import { Checkout } from './components/checkout/Checkout';
+import { Order } from './components/order/Order';
 
 const category = ['phones', 'laptop', 'clothing', 'camera']
 
@@ -48,6 +52,7 @@ function App() {
           uid: docSnap.data().userDetails.uid,
         },
         cart: await getCollectionItems(docSnap.data().userDetails.uid, "cart"),
+        wishList: await getCollectionItems(docSnap.data().userDetails.uid, "wishList"),
       })
     } else {
       // docSnap.data() will be undefined in this case
@@ -78,8 +83,25 @@ function App() {
           path: "/detail/:productid",
           element: <ProductDetail />,
         },
+        {
+          path: "/wishlist",
+          element: <WishList />,
+        },
+        {
+          path: "/checkout",
+          element: <Checkout />,
+        },
+        {
+          path: "/order",
+          element: <Order />,
+        },
       ],
     },
+    {
+      path: "*",
+      element: <ErrorPage />,
+    }
+
   ]);
   return (
     <>

@@ -1,6 +1,8 @@
 .card {
     border: 1.5px solid #f5f5f5;
     max-height: 450px;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .cardImageBox {
@@ -20,7 +22,7 @@
     padding: 1.5em 0.6em;
     padding-top: 1em;
     width: 100%;
-    height: 200px;
+    /* height: max-content; */
     flex-direction: column;
     justify-content: space-between;
 }
@@ -29,6 +31,7 @@
     text-align: left;
     font-weight: 400;
     font-size: 1.1rem;
+    text-overflow: ellipsis;
 }
 
 .cardPriceBox {

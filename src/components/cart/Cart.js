@@ -7,7 +7,8 @@ import currencyFormatter from '../../currencyFormatter/currencyFormatter';
 import './cart.css'
 import deleteFromSubcollection from '../../firestoreQuery/deleteFromSubcollection';
 import getRealTimeSubcolletion from '../../firestoreQuery/getRealTimeSubcolletion';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import sliceString from '../../sliceString/sliceString';
 
 export default function Cart({ setCart }) {
   const navigate = useNavigate()
@@ -25,7 +26,7 @@ export default function Cart({ setCart }) {
       }
     }
     fetchData()
-  }, [data])
+  })
 
   const [open, setOpen] = useState(true)
   setCart(open)
@@ -84,8 +85,8 @@ export default function Cart({ setCart }) {
                                   <img
                                     src={product.imageSrc}
                                     alt={product.imageAlt}
-                                    className="h-full w-full object-contain object-center"
-                                    onClick={() => { navigate(`/detail/${product.productId}`);setOpen(false)}}
+                                    className="h-full w-full cursor-pointer object-contain object-center"
+                                    onClick={() => { navigate(`/detail/${product.productId}`); setOpen(false) }}
                                   />
                                 </div>
 
@@ -93,7 +94,7 @@ export default function Cart({ setCart }) {
                                   <div>
                                     <div className="flex justify-between text-base font-medium text-gray-900">
                                       <h3>
-                                        <a href={product.href}>{product.name}</a>
+                                        <a href={product.href}>{sliceString(product.name, 50)}</a>
                                       </h3>
                                       <p className="ml-4">₹{currencyFormatter(product.price * product.qnt)}</p>
                                     </div>
@@ -106,7 +107,7 @@ export default function Cart({ setCart }) {
                                       <button
                                         type="button"
                                         className="font-medium text-indigo-600 hover:text-indigo-500"
-                                        onClick={(e) => { e.preventDefault(); deleteFromSubcollection(product.id) }}
+                                        onClick={(e) => { e.preventDefault(); deleteFromSubcollection('users', 'cart', product.id) }}
                                       >
                                         Remove
                                       </button>
@@ -128,13 +129,21 @@ export default function Cart({ setCart }) {
                         <p>Subtotal</p>
                         <p>₹{currencyFormatter(a)}</p>
                       </div>
-                      <div className="mt-6">
-                        <a
-                          href="#"
-                          className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                        >
-                          Checkout
-                        </a>
+                      <div className="mt-6" >
+                        {((data?.length !== 0) && userDetails) ?
+                          <Link
+                            onClick={() => setOpen(false)}
+                            to='/checkout'
+                            className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                          >
+                            Checkout
+                          </Link> :
+                          <span
+                            className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                          >
+                            Checkout
+                          </span>
+                        }
                       </div>
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>

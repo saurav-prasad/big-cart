@@ -10,9 +10,7 @@ function Home() {
     <div>
       <Navbar />
       <Breadcrumbs />
-      <WishList />
-      {/* <Test /> */}
-      {/* <Outlet /> */}
+      <Outlet />
     </div>
   )
 }
