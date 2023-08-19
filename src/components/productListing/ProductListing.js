@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import './productListing.css'
-import Card from '../card/Card'
+import Card from '../productListingCard/ProductListingCard'
 import { useProductState } from '../../context/products/ProductState'
 import Loader from '../loader/Loader'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
+
 function ProductListing() {
 
     const [{ products },] = useProductState()

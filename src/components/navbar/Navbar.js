@@ -195,8 +195,8 @@ function Navbar() {
             {
               category.map(data => <li onClick={() => setNav(false)} ><Link to={data.href}><p>{data.name}</p></Link></li>)
             }
-            <li onClick={() => setNav(false)}><p><strong><Link to='/order'>My Orders</Link></strong></p></li>
             <li onClick={() => setNav(false)}><p><strong><Link to='/wishlist'>WishList</Link></strong></p></li>
+            <li onClick={() => setNav(false)}><p><strong><Link to='/order'>My Orders</Link></strong></p></li>
           </ul>
         </div>
         <div

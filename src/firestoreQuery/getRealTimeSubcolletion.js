@@ -13,9 +13,7 @@ const getRealTimeSubcollection = async (coll, uid, subColl) => {
             });
             resolve(dataArr); // Resolve the promise with dataArr
         });
-
         // You can return the unsubscribe function if you want to unsubscribe manually
-        // resolve({ dataArr, unsubscribe });
     });
 };
 

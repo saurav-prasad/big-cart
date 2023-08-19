@@ -7,14 +7,19 @@ import { UserState } from './context/UserState';
 import userReducer, { userInitialState } from './context/UserReducer';
 import { ProductState } from './context/products/ProductState';
 import productReducer, { productInitialState } from './context/products/ProductReducer';
-import { HashRouter } from 'react-router-dom';
+import { CartState } from './context/cart/CartState';
+import { WishListState } from './context/wishList/WishListState';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ProductState initialState={productInitialState} reducer={productReducer}>
       <UserState initialState={userInitialState} reducer={userReducer}>
-          <App />
+        <CartState>
+          <WishListState>
+            <App />
+          </WishListState>
+        </CartState>
       </UserState>
     </ProductState>
   </React.StrictMode>

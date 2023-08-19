@@ -11,16 +11,19 @@ import sliceString from '../../sliceString/sliceString';
 import addToSubCollection from '../../firestoreQuery/addToSubCollection';
 import Alrt from '../alrt/Alrt';
 import { FavoriteRounded } from '@mui/icons-material';
+import { useCartState } from '../../context/cart/CartState';
+import { useWishListState } from '../../context/wishList/WishListState';
 
 
 export default function ProductDetail() {
     const [text, settext] = useState(false)
     const [alert, setAlert] = useState(null)
     const [{ products },] = useProductState()
+    const { addWish, deleteWishItem } = useWishListState()
     const [product, setProduct] = useState({})
     const [qnt, setQnt] = useState(1)
     const params = useParams()
-
+    const { addCart } = useCartState()
     useEffect(() => {
         const filteredProducts = products?.filter((data) => {
             return data.productId === params.productid;
@@ -36,18 +39,18 @@ export default function ProductDetail() {
     const name = product?.name
 
     const addToWishList = () => {
-        localStorage?.getItem('uid') ? addWish() : showAlert({ status: true, text: 'Sign-in first', type: 'error' })
+        localStorage?.getItem('uid') ? addToWish() : showAlert({ status: true, text: 'Sign-in first', type: 'error' })
     }
     const addToCart = (e) => {
         e.preventDefault()
         localStorage?.getItem('uid') ? getData() : showAlert({ status: true, text: 'Sign-in first', type: 'error' })
     }
-    const addWish = () => {
-        addToSubCollection('users', 'wishList', product)
+    const addToWish = () => {
+        addWish(product)
         showAlert({ status: true, text: 'Item added to WishList', type: 'success' })
     }
     const getData = () => {
-        addToSubCollection('users', 'cart', { ...product, qnt })
+        addCart({ ...product, qnt })
         showAlert({ status: true, text: 'Item added to Cart', type: 'success' })
     }
     const showAlert = (data) => {
@@ -145,7 +148,7 @@ export default function ProductDetail() {
                                 </header>
                                 <div>
                                     <div className="pb-6 text-sm leading-7 text-gray-600 md:pb-7">
-                                        {product.description ? product.description:'Details not provided.'}
+                                        {product.description ? product.description : 'Details not provided.'}
                                     </div>
                                 </div>
                                 <header className="flex cursor-pointer items-center justify-between border-t border-gray-300 py-5 transition-colors md:py-6">

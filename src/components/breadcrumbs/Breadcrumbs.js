@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 
 function Breadcrumbs() {
 
@@ -12,8 +12,9 @@ function Breadcrumbs() {
                 <li >
                     <div className="flex items-center">
                         {/* <a  className="mr-2 text-sm font-medium text-gray-900"> */}
-                        <span href='/' className="mr-2 text-sm font-medium text-gray-900">
-                            Home                        </span>
+                        <Link to='/' className="mr-2 text-sm font-medium text-gray-900">
+                            Home
+                        </Link>
                         <svg
                             width={16}
                             height={20}
@@ -31,8 +32,8 @@ function Breadcrumbs() {
                     <li>
                         <div className="flex items-center">
                             {/* <a  className="mr-2 text-sm font-medium text-gray-900"> */}
-                            <span href='/' className="mr-2 text-sm font-medium text-gray-900">
-                                { breadcrumb}
+                            <span className="mr-2 text-sm font-medium text-gray-900">
+                                {breadcrumb}
                             </span>
                             <svg
                                 width={16}

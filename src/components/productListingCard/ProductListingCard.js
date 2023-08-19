@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
-import './card.css'
+import './productListingCard.css'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useNavigate } from 'react-router-dom';
 import currencyFormatter from '../../currencyFormatter/currencyFormatter';
 import sliceString from '../../sliceString/sliceString';
 import addToSubCollection from '../../firestoreQuery/addToSubCollection';
 import Alrt from '../alrt/Alrt';
+import { useCartState } from '../../context/cart/CartState';
+import { useWishListState } from '../../context/wishList/WishListState';
 
 function Card({ product }) {
+    const { addWish } = useWishListState()
+
     const navigate = useNavigate()
     const [alert, setAlert] = useState(null)
 
@@ -16,7 +20,7 @@ function Card({ product }) {
         localStorage?.getItem('uid') ? addData() : showAlert({ status: true, text: 'Sign-in first', type: 'error' })
     }
     const addData = () => {
-        addToSubCollection('users', 'wishList', product)
+        addWish(product)
         showAlert({ status: true, text: 'Item added to WishList', type: 'success' })
     }
     const showAlert = (data) => {

@@ -7,23 +7,86 @@ import deleteFromSubcollection from '../../firestoreQuery/deleteFromSubcollectio
 import { useNavigate } from 'react-router-dom';
 import Alrt from '../alrt/Alrt';
 import sliceString from '../../sliceString/sliceString';
+import axios from 'axios';
+import addToSubCollection from '../../firestoreQuery/addToSubCollection';
+import { serverTimestamp } from 'firebase/firestore';
+import getCollectionItems from '../../firestoreQuery/getCollectionItems';
 
 export function Checkout() {
-    const [{ userDetails }, dispatch] = useUserState()
-    const [data, setData] = useState()
-    const [alert, setAlert] = useState()
+    const [address, setAdderess] = useState({ address: "", city: "", name: "", phoneNumber: "", pin: "", state: "" })
     const navigate = useNavigate()
+    const [products, setProducts] = useState([])
+
+    const handleOnChange = (e) => {
+        setAdderess({
+            ...address,
+            [e.target.id]: e.target.value
+        })
+    }
+
+    const handleCheckout = async (amount) => {
+        const { data: { key } } = await axios.get('https://razorpayapi.vercel.app/api/getkey')
+        const { data } = await axios.post('https://razorpayapi.vercel.app/api/checkout', {
+            amount: amount
+        })
+        const options = {
+            key: key, // Enter the Key ID generated from the Dashboard
+            amount: data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            currency: "INR",
+            name: "Big Cart",
+            description: "Big Cart order payment",
+            image: "https://effectiv.ai/wp-content/uploads/2023/03/BigCart-Logo.svg",
+            order_id: data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            // callback_url: "https://razorpayapi.vercel.app/api/verifypayment",
+            handler: async function (response) {
+                let orderDetails = {
+                    "orderId": `#${data.id.slice(6)}`,
+                    "orderStatus": "Confirmed",
+                    "total": amount,
+                    "date": serverTimestamp()
+                }
+                await addToSubCollection("orders", "order", { orderDetails, products: products, address })
+                await addToSubCollection("users", "orders", { orderDetails, products: products, address })
+                const cart = await getCollectionItems(localStorage.getItem('uid'), 'cart')
+                for (const iterator of cart) {
+                    deleteFromSubcollection("users", "cart", iterator.id)
+                }
+                navigate('/order')
+            },
+            theme: {
+                color: "#3399cc"
+            }
+        }
+        const rzp1 = window.Razorpay(options);
+        rzp1.open();
+        rzp1.on('payment.failed', function (response) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+        });
+    }
+
+
+
+
+    const [{ userDetails }] = useUserState()
+    const [alert, setAlert] = useState()
     let totalPrice = 0
-    data?.map((product) =>
+    products?.map((product) =>
         totalPrice = totalPrice + product.price * product.qnt
     )
     useEffect(() => {
         async function fetchData() {
             if (userDetails) {
                 const a = await getRealTimeSubcollection('users', userDetails?.uid, 'cart')
-                setData(a)
+                setProducts(a)
+                console.log(a);
+                a?.length === 0 && navigate("/")
             }
-            (data?.length === 0) && navigate(-1)
         }
         fetchData()
     })
@@ -59,6 +122,7 @@ export function Checkout() {
                                                         Full Name
                                                     </label>
                                                     <input
+                                                        onChange={handleOnChange}
                                                         className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                                         type="text"
                                                         placeholder="Enter your name"
@@ -69,7 +133,7 @@ export function Checkout() {
                                                 <div className="mt-4 w-full">
                                                     <label
                                                         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                                        htmlFor="number"
+                                                        htmlFor="phoneNumber"
                                                     >
                                                         Contact number
                                                     </label>
@@ -77,7 +141,8 @@ export function Checkout() {
                                                         className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                                         type="number"
                                                         placeholder="Enter your contact number"
-                                                        id="number"
+                                                        id="phoneNumber"
+                                                        onChange={handleOnChange}
                                                     ></input>
                                                 </div>
                                             </div>
@@ -100,6 +165,7 @@ export function Checkout() {
                                                                 name="address"
                                                                 autoComplete="street-address"
                                                                 className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                                                                onChange={handleOnChange}
                                                             />
                                                         </div>
                                                     </div>
@@ -118,13 +184,14 @@ export function Checkout() {
                                                                 name="city"
                                                                 autoComplete="address-level2"
                                                                 className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                                                                onChange={handleOnChange}
                                                             />
                                                         </div>
                                                     </div>
 
                                                     <div>
                                                         <label
-                                                            htmlFor="region"
+                                                            htmlFor="state"
                                                             className="block text-sm font-medium text-gray-700"
                                                         >
                                                             State
@@ -132,28 +199,30 @@ export function Checkout() {
                                                         <div className="mt-1">
                                                             <input
                                                                 type="text"
-                                                                id="region"
+                                                                id="state"
                                                                 name="region"
                                                                 autoComplete="address-level1"
                                                                 className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                                                                onChange={handleOnChange}
                                                             />
                                                         </div>
                                                     </div>
 
                                                     <div>
                                                         <label
-                                                            htmlFor="postal-code"
+                                                            htmlFor="pin"
                                                             className="block text-sm font-medium text-gray-700"
                                                         >
-                                                            Postal code
+                                                            Pin code
                                                         </label>
                                                         <div className="mt-1">
                                                             <input
-                                                                type="text"
-                                                                id="postal-code"
+                                                                type="number"
+                                                                id="pin"
                                                                 name="postal-code"
                                                                 autoComplete="postal-code"
                                                                 className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                                                                onChange={handleOnChange}
                                                             />
                                                         </div>
                                                     </div>
@@ -170,6 +239,7 @@ export function Checkout() {
                                                 <button
                                                     type="button"
                                                     className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                                                    onClick={() => handleCheckout(totalPrice)}
                                                 >
                                                     Make payment
                                                 </button>
@@ -184,7 +254,7 @@ export function Checkout() {
                     <div className="bg-gray-100 px-5 py-6 md:px-8">
                         <div className="flow-root">
                             <ul className="-my-7 divide-y divide-gray-200">
-                                {data?.map((product) => (
+                                {products?.map((product) => (
                                     <li
                                         key={product.id}
                                         className="flex items-stretch justify-between space-x-5 py-7"
@@ -207,7 +277,7 @@ export function Checkout() {
                                         <div className="ml-auto flex flex-col items-end justify-between">
                                             <p className="text-right text-sm font-bold text-gray-900">₹{currencyFormatter(product.price * product.qnt)}</p>
                                             <button
-                                                onClick={(e) => { e.preventDefault(); (data?.length === 1) ? showAlert({ status: true, text: 'Atleast one item required', type: 'error' }) : deleteFromSubcollection('users', 'cart', product.id) }}
+                                                onClick={(e) => { e.preventDefault(); (products?.length === 1) ? showAlert({ status: true, text: 'Atleast one item required', type: 'error' }) : deleteFromSubcollection('users', 'cart', product.id) }}
                                                 type="button"
                                                 className="-m-2 inline-flex rounded p-2 text-gray-400 transition-all duration-200 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2"
                                             >

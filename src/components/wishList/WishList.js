@@ -6,24 +6,28 @@ import Loader from '../loader/Loader'
 import addToSubCollection from '../../firestoreQuery/addToSubCollection'
 import deleteFromSubcollection from '../../firestoreQuery/deleteFromSubcollection'
 import Alrt from '../alrt/Alrt'
+import { useWishListState } from '../../context/wishList/WishListState'
+import { useCartState } from '../../context/cart/CartState'
 
 function WishList() {
-    const [{ userDetails, }] = useUserState()
+    const [{ userDetails, wishList }] = useUserState()
+    const { addWish, deleteWishItem } = useWishListState()
+    const { addCart } = useCartState()
     const [data, setdata] = useState(null)
     const [alert, setAlert] = useState(null)
 
     const addToCart = async (product) => {
-        await addToSubCollection('users', 'cart', { ...product, qnt: 1 })
-        showAlert({ status: true, text: 'Item added to cart', type: 'success' })
-        deleteData(product)
+        addCart({ ...product, qnt: 1 })
+        deleteWishItem(product)
+        showAlert({ status: true, text: 'Item moved to Cart', type: 'success' })
     }
     const removeFromWishList = async (product) => {
         showAlert({ status: true, text: 'Item removed from WishList', type: 'success' })
-        await deleteFromSubcollection('users', 'wishList', product.id)
+        deleteWishItem(product)
     }
     const deleteData = async (product) => {
         showAlert({ status: true, text: 'Item moved to Cart', type: 'success' })
-        await deleteFromSubcollection('users', 'wishList', product.id)
+        deleteWishItem(product)
     }
     const showAlert = (data) => {
         setAlert(data)
@@ -33,14 +37,15 @@ function WishList() {
     }
 
     useEffect(() => {
-        async function fetchData() {
-            if (userDetails) {
-                const a = await getRealTimeSubcollection('users', localStorage.getItem('uid'), 'wishList')
-                setdata(a)
-            }
+        // async function fetchData() {
+        if (userDetails) {
+            // const a = await getRealTimeSubcollection('users', localStorage.getItem('uid'), 'wishList')
+            const a = wishList
+            setdata(a)
         }
-        fetchData()
-    })
+        // }
+        // fetchData()
+    }, [wishList])
 
     return (
         <div className='pt-7'>

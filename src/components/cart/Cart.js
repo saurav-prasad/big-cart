@@ -9,26 +9,27 @@ import deleteFromSubcollection from '../../firestoreQuery/deleteFromSubcollectio
 import getRealTimeSubcolletion from '../../firestoreQuery/getRealTimeSubcolletion';
 import { Link, useNavigate } from 'react-router-dom';
 import sliceString from '../../sliceString/sliceString';
+import { useCartState } from '../../context/cart/CartState';
+import CartCard from './CartCard';
 
 export default function Cart({ setCart }) {
-  const navigate = useNavigate()
-  const [{ userDetails, cart }, dispatch] = useUserState()
+  const [{ userDetails, cart }] = useUserState()
   const [data, setData] = useState()
+  const [open, setOpen] = useState(true)
+
   let a = 0
   data?.map((product) =>
     a = a + product.price * product.qnt
   )
-  useEffect(() => {
-    async function fetchData() {
-      if (userDetails) {
-        const a = await getRealTimeSubcolletion('users', userDetails?.uid, 'cart')
-        setData(a)
-      }
-    }
-    fetchData()
-  })
 
-  const [open, setOpen] = useState(true)
+  useEffect(() => {
+    if (userDetails) {
+      // const a = await getRealTimeSubcolletion('users', userDetails?.uid, 'cart')
+      const a = cart
+      setData(a)
+    }
+  },[ ])
+
   setCart(open)
 
   return (
@@ -80,41 +81,7 @@ export default function Cart({ setCart }) {
                         <div className="flow-root">
                           <ul role="list" className="-my-6 divide-y divide-gray-200">
                             {(userDetails && data?.length > 0) ? data ? data.map((product) => (
-                              <li key={product.id} className="flex py-6">
-                                <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                  <img
-                                    src={product.imageSrc}
-                                    alt={product.imageAlt}
-                                    className="h-full w-full cursor-pointer object-contain object-center"
-                                    onClick={() => { navigate(`/detail/${product.productId}`); setOpen(false) }}
-                                  />
-                                </div>
-
-                                <div className="ml-4 flex flex-1 flex-col">
-                                  <div>
-                                    <div className="flex justify-between text-base font-medium text-gray-900">
-                                      <h3>
-                                        <a href={product.href}>{sliceString(product.name, 50)}</a>
-                                      </h3>
-                                      <p className="ml-4">₹{currencyFormatter(product.price * product.qnt)}</p>
-                                    </div>
-                                    <p className="mt-1 text-sm text-gray-500">{product.color}</p>
-                                  </div>
-                                  <div className="flex flex-1 items-end justify-between text-sm">
-                                    <p className="text-gray-500">Qty {product.qnt}</p>
-
-                                    <div className="flex">
-                                      <button
-                                        type="button"
-                                        className="font-medium text-indigo-600 hover:text-indigo-500"
-                                        onClick={(e) => { e.preventDefault(); deleteFromSubcollection('users', 'cart', product.id) }}
-                                      >
-                                        Remove
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
+                              <CartCard product={product} setOpen={setOpen} />
                             )) : <Loader /> : <div style={{ flexDirection: 'column' }} className='flexCenter'>
                               <img style={{ objectFit: 'contain' }} alt='Empty Cart' src='https://img.freepik.com/premium-vector/shopping-cart-with-cross-mark-wireless-paymant-icon-shopping-bag-failure-paymant-sign-online-shopping-vector_662353-912.jpg' />
                               <h1 style={{ fontWeight: '500', fontSize: '1.5rem' }}>Your Cart is empty</h1>
@@ -130,20 +97,13 @@ export default function Cart({ setCart }) {
                         <p>₹{currencyFormatter(a)}</p>
                       </div>
                       <div className="mt-6" >
-                        {((data?.length !== 0) && userDetails) ?
-                          <Link
-                            onClick={() => setOpen(false)}
-                            to='/checkout'
-                            className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                          >
-                            Checkout
-                          </Link> :
-                          <span
-                            className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                          >
-                            Checkout
-                          </span>
-                        }
+                        <Link
+                          to={(localStorage.getItem('uid') && data?.length !== 0) && '/checkout'}
+                          onClick={() => setOpen(false)}
+                          className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                        >
+                          Checkout
+                        </Link>
                       </div>
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>
