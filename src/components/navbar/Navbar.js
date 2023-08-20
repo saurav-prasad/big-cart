@@ -107,17 +107,17 @@ function Navbar() {
       <nav className='navbar flexCenter' >
         {/* Navbar Left */}
         <div className='flexCenter navbarLeft'>
-          {location.pathname.startsWith('/detail/') ? <KeyboardBackspaceRoundedIcon fontSize='large' className='cursorPointer text-bold' onClick={() => navigate(-1)} /> :
-            <>
-              <MenuRoundedIcon onClick={() => setNav(true)} className='navbarBurger' />
 
-              <h1 className='navTitle'><Link to='/'>Big-Cart</Link></h1>
-              <ul className='flexCenter navLists'>
-                {category.map(data => <li className='navList cursorPointer'><Link to={data.href}>{data.name}</Link></li>)}
-              </ul>
 
-            </>
-          }
+          <MenuRoundedIcon onClick={() => setNav(true)} className='navbarBurger' />
+          {location.pathname.startsWith('/detail/') ? <KeyboardBackspaceRoundedIcon fontSize='large' className='cursorPointer text-bold' onClick={() => navigate(-1)} />:
+          <h1 className='navTitle'><Link to='/'>Big-Cart</Link></h1>}
+          <ul className='flexCenter navLists'>
+            {category.map(data => <li className='navList cursorPointer'><Link to={data.href}>{data.name}</Link></li>)}
+          </ul>
+
+
+
         </div>
         {/* Navbar Right */}
         <div className='navbarRight flexCenter'>

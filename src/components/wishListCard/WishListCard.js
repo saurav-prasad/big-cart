@@ -13,9 +13,8 @@ function WishListCard({ product, showAlert }) {
 
     const addToCart = () => {
         console.log("addToCart", product);
-        showAlert({ status: true, text: 'Item moved to cart', type: 'success' });
+        showAlert({ status: true, text: 'Item added to cart', type: 'success' });
         addCart({ ...product, qnt: 1 });
-        deleteItem(product);
     }
 
     const removeFromWishList = () => {
@@ -44,7 +43,7 @@ function WishListCard({ product, showAlert }) {
                     className="mt-4 w-full rounded-sm bg-black px-2 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                     onClick={(e) => { addToCart(); e.preventDefault() }}
                 >
-                    Move to Cart
+                    Add to Cart
                 </button>
             </div>
         </div>

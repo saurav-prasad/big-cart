@@ -16,7 +16,7 @@ export function Checkout() {
     const [address, setAdderess] = useState({ address: "", city: "", name: "", phoneNumber: "", pin: "", state: "" })
     const navigate = useNavigate()
     const { deleteCartItem } = useCartState()
-    const [{ cart }] = useUserState()
+    const [user, dispatch] = useUserState()
     const [products, setProducts] = useState([])
 
     const handleOnChange = (e) => {
@@ -40,7 +40,7 @@ export function Checkout() {
             image: "https://effectiv.ai/wp-content/uploads/2023/03/BigCart-Logo.svg",
             order_id: data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
             // callback_url: "https://razorpayapi.vercel.app/api/verifypayment",
-            handler: async function (response) {
+            handler: async function () {
                 let orderDetails = {
                     "orderId": `#${data.id.slice(6)}`,
                     "orderStatus": "Confirmed",
@@ -49,10 +49,15 @@ export function Checkout() {
                 }
                 await addToSubCollection("orders", "order", { orderDetails, products: products, address })
                 await addToSubCollection("users", "orders", { orderDetails, products: products, address })
-                for (const iterator of cart) {
-                    deleteFromSubcollection("users", "cart", iterator)
+                for (const iterator of user.cart) {
+                    console.log("iterator1", iterator);
+                    await deleteFromSubcollection("users", "cart", iterator.id)
                 }
                 navigate('/order')
+                dispatch({
+                    ...user,
+                    cart: []
+                })
             },
             theme: {
                 color: "#3399cc"
@@ -78,17 +83,12 @@ export function Checkout() {
         totalPrice = totalPrice + product.price * product.qnt
     )
     useEffect(() => {
-        // async function fetchData() {
         if (userDetails) {
-            // const a =  getRealTimeSubcollection('users', userDetails?.uid, 'cart')
-            const a = cart
-            setProducts(a)
-            console.log(a);
-            a?.length === 0 && navigate("/")
+            setProducts(user?.cart)
+            user?.cart?.length === 0 && navigate("/")
         }
-        // }
-        // fetchData()
-    }, [cart])
+    }, [user.cart])
+
     const showAlert = (data) => {
         setAlert(data)
         setTimeout(() => {

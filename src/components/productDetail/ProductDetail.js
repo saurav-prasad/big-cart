@@ -52,6 +52,7 @@ export default function ProductDetail() {
     }
     const getData = () => {
         addCart({ ...product, qnt })
+        setQnt(1)
         showAlert({ status: true, text: 'Item added to Cart', type: 'success' })
     }
     const showAlert = (data) => {

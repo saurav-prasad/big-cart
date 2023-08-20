@@ -16,7 +16,7 @@ function OrderCard({ products, address, orderDetails }) {
                         </div>
                         <div className="mb-4">
                             <div className="text-sm font-semibold">Date</div>
-                            <div className="text-sm font-medium text-gray-700">{a.toDateString()} {a.toLocaleTimeString()}</div>
+                            <div className="text-sm font-medium text-gray-700">{a?.toDateString()} {a?.toLocaleTimeString()}</div>
                         </div>
                         <div className="mb-4">
                             <div className="text-sm font-semibold">Total Amount</div>

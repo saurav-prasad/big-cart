@@ -5,15 +5,12 @@ import Loader from '../loader/Loader';
 import { useUserState } from '../../context/UserState';
 import currencyFormatter from '../../currencyFormatter/currencyFormatter';
 import './cart.css'
-import deleteFromSubcollection from '../../firestoreQuery/deleteFromSubcollection';
-import getRealTimeSubcolletion from '../../firestoreQuery/getRealTimeSubcolletion';
-import { Link, useNavigate } from 'react-router-dom';
-import sliceString from '../../sliceString/sliceString';
-import { useCartState } from '../../context/cart/CartState';
+import { Link } from 'react-router-dom';
 import CartCard from './CartCard';
 
 export default function Cart({ setCart }) {
   const [{ userDetails, cart }] = useUserState()
+  const [user] = useUserState()
   const [data, setData] = useState([])
   const [open, setOpen] = useState(true)
 
@@ -24,10 +21,10 @@ export default function Cart({ setCart }) {
 
   useEffect(() => {
     if (userDetails) {
-      console.log("object");
+      console.log(cart);
       setData(cart)
     }
-  }, [cart,open])
+  }, [user, cart])
 
   setCart(open)
 
