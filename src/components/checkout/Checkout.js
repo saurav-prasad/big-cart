@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import getRealTimeSubcollection from '../../firestoreQuery/getRealTimeSubcolletion';
 import { useUserState } from '../../context/UserState';
 import currencyFormatter from '../../currencyFormatter/currencyFormatter';
 import deleteFromSubcollection from '../../firestoreQuery/deleteFromSubcollection';
@@ -11,10 +10,13 @@ import axios from 'axios';
 import addToSubCollection from '../../firestoreQuery/addToSubCollection';
 import { serverTimestamp } from 'firebase/firestore';
 import getCollectionItems from '../../firestoreQuery/getCollectionItems';
+import { useCartState } from '../../context/cart/CartState';
 
 export function Checkout() {
     const [address, setAdderess] = useState({ address: "", city: "", name: "", phoneNumber: "", pin: "", state: "" })
     const navigate = useNavigate()
+    const { deleteCartItem } = useCartState()
+    const [{ cart }] = useUserState()
     const [products, setProducts] = useState([])
 
     const handleOnChange = (e) => {
@@ -47,9 +49,8 @@ export function Checkout() {
                 }
                 await addToSubCollection("orders", "order", { orderDetails, products: products, address })
                 await addToSubCollection("users", "orders", { orderDetails, products: products, address })
-                const cart = await getCollectionItems(localStorage.getItem('uid'), 'cart')
                 for (const iterator of cart) {
-                    deleteFromSubcollection("users", "cart", iterator.id)
+                    deleteFromSubcollection("users", "cart", iterator)
                 }
                 navigate('/order')
             },
@@ -70,9 +71,6 @@ export function Checkout() {
         });
     }
 
-
-
-
     const [{ userDetails }] = useUserState()
     const [alert, setAlert] = useState()
     let totalPrice = 0
@@ -80,16 +78,17 @@ export function Checkout() {
         totalPrice = totalPrice + product.price * product.qnt
     )
     useEffect(() => {
-        async function fetchData() {
-            if (userDetails) {
-                const a = await getRealTimeSubcollection('users', userDetails?.uid, 'cart')
-                setProducts(a)
-                console.log(a);
-                a?.length === 0 && navigate("/")
-            }
+        // async function fetchData() {
+        if (userDetails) {
+            // const a =  getRealTimeSubcollection('users', userDetails?.uid, 'cart')
+            const a = cart
+            setProducts(a)
+            console.log(a);
+            a?.length === 0 && navigate("/")
         }
-        fetchData()
-    })
+        // }
+        // fetchData()
+    }, [cart])
     const showAlert = (data) => {
         setAlert(data)
         setTimeout(() => {
@@ -277,7 +276,7 @@ export function Checkout() {
                                         <div className="ml-auto flex flex-col items-end justify-between">
                                             <p className="text-right text-sm font-bold text-gray-900">₹{currencyFormatter(product.price * product.qnt)}</p>
                                             <button
-                                                onClick={(e) => { e.preventDefault(); (products?.length === 1) ? showAlert({ status: true, text: 'Atleast one item required', type: 'error' }) : deleteFromSubcollection('users', 'cart', product.id) }}
+                                                onClick={(e) => { e.preventDefault(); (products?.length === 1) ? showAlert({ status: true, text: 'Atleast one item required', type: 'error' }) : deleteCartItem(product) }}
                                                 type="button"
                                                 className="-m-2 inline-flex rounded p-2 text-gray-400 transition-all duration-200 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2"
                                             >

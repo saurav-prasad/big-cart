@@ -19,11 +19,12 @@ export default function ProductDetail() {
     const [text, settext] = useState(false)
     const [alert, setAlert] = useState(null)
     const [{ products },] = useProductState()
-    const { addWish, deleteWishItem } = useWishListState()
+    const { addWish } = useWishListState()
+    const { addCart } = useCartState()
     const [product, setProduct] = useState({})
     const [qnt, setQnt] = useState(1)
     const params = useParams()
-    const { addCart } = useCartState()
+
     useEffect(() => {
         const filteredProducts = products?.filter((data) => {
             return data.productId === params.productid;

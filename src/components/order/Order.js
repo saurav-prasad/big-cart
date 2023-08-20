@@ -23,7 +23,7 @@ export const Order = () => {
             </div>
             {data.length === 0 ?
                 <div className='flexCenter flex-col'>
-                    <h1 className='mb-10 font-medium text-3xl'>Your have no orders.</h1>
+                    <h1 className='mb-10 font-medium text-3xl'>No orders yet.</h1>
                     <img alt='no-orders' className='object-contain'  src='https://mir-s3-cdn-cf.behance.net/projects/404/8412d0104101523.Y3JvcCwxMDI0LDgwMCwwLDcw.jpg' />
                 </div> :
                 data?.map((arr) => <OrderCard orderDetails={arr?.orderDetails} address={arr?.address} products={arr?.products} />

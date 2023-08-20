@@ -14,21 +14,20 @@ import CartCard from './CartCard';
 
 export default function Cart({ setCart }) {
   const [{ userDetails, cart }] = useUserState()
-  const [data, setData] = useState()
+  const [data, setData] = useState([])
   const [open, setOpen] = useState(true)
 
-  let a = 0
+  let total = 0
   data?.map((product) =>
-    a = a + product.price * product.qnt
+    total = total + product.price * product.qnt
   )
 
   useEffect(() => {
     if (userDetails) {
-      // const a = await getRealTimeSubcolletion('users', userDetails?.uid, 'cart')
-      const a = cart
-      setData(a)
+      console.log("object");
+      setData(cart)
     }
-  },[ ])
+  }, [cart,open])
 
   setCart(open)
 
@@ -81,7 +80,7 @@ export default function Cart({ setCart }) {
                         <div className="flow-root">
                           <ul role="list" className="-my-6 divide-y divide-gray-200">
                             {(userDetails && data?.length > 0) ? data ? data.map((product) => (
-                              <CartCard product={product} setOpen={setOpen} />
+                              <CartCard key={product.id} product={product} setOpen={setOpen} />
                             )) : <Loader /> : <div style={{ flexDirection: 'column' }} className='flexCenter'>
                               <img style={{ objectFit: 'contain' }} alt='Empty Cart' src='https://img.freepik.com/premium-vector/shopping-cart-with-cross-mark-wireless-paymant-icon-shopping-bag-failure-paymant-sign-online-shopping-vector_662353-912.jpg' />
                               <h1 style={{ fontWeight: '500', fontSize: '1.5rem' }}>Your Cart is empty</h1>
@@ -94,7 +93,7 @@ export default function Cart({ setCart }) {
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
-                        <p>₹{currencyFormatter(a)}</p>
+                        <p>₹{currencyFormatter(total)}</p>
                       </div>
                       <div className="mt-6" >
                         <Link
