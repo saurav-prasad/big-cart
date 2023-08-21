@@ -4,6 +4,8 @@ import Card from '../productListingCard/ProductListingCard'
 import { useProductState } from '../../context/products/ProductState'
 import Loader from '../loader/Loader'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Skeleton } from '@mui/material'
+import Skeletonn from '../skeleton/Skeleton'
 
 function ProductListing() {
 
@@ -29,7 +31,13 @@ function ProductListing() {
                     <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-8">
                         {product?.map((product) => <Card key={product.key} product={product} />)}
                     </div> :
-                    <Loader />
+                    // <Loader />
+                    <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-8">
+                        {Array.from({ length: 20 }).map((_) =>
+                           <Skeletonn/>
+                        )}
+
+                    </div>
                 }
             </div>
         </div>

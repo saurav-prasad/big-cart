@@ -15,7 +15,6 @@ const userReducer = (state, action) => {
                 userDetails: action?.userDetails,
                 cart: action?.cart,
                 wishList: action?.wishList,
-                orders: action?.orders,
             }
         case actionTypes.unsetUser:
             return { user: null }

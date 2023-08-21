@@ -110,10 +110,11 @@ function Navbar() {
 
 
           <MenuRoundedIcon onClick={() => setNav(true)} className='navbarBurger' />
-          {location.pathname.startsWith('/detail/') ? <KeyboardBackspaceRoundedIcon fontSize='large' className='cursorPointer text-bold' onClick={() => navigate(-1)} />:
-          <h1 className='navTitle'><Link to='/'>Big-Cart</Link></h1>}
+          {location.pathname.startsWith('/detail/') ?
+            <KeyboardBackspaceRoundedIcon fontSize='large' className='cursorPointer navbarArrow text-bold' onClick={() => navigate(-1)} /> :
+            <h1 className='navTitle'><Link to='/'>Big-Cart</Link></h1>}
           <ul className='flexCenter navLists'>
-            {category.map(data => <li className='navList cursorPointer'><Link to={data.href}>{data.name}</Link></li>)}
+            {category.map(data => <li className='navList cursorPointer rounded-lg text-gray-200 hover:bg-gray-700 hover:text-white transition'><Link to={data.href}>{data.name}</Link></li>)}
           </ul>
 
 
@@ -171,15 +172,21 @@ function Navbar() {
                 </Menu.Items>
               </Transition>
             </Menu> :
-            <span className='cursorPointer flexCenter text-white bg-slate-300 navbarUser' onClick={loginUser}>
+            <span className='cursorPointer flexCenter rounded-lg text-white bg-gray-700 hover:bg-gray-900 hover:text-white navbarUser transition' onClick={loginUser}>
               Sign In
             </span>
           }
-          <span className='cursorPointer navbarOrder'><Link to='/order'>Orders</Link></span>
+          <span className='cursorPointer navbarOrder rounded-lg transition text-gray-200 hover:bg-gray-700 hover:text-white '>
+            <Link to='/order'>Orders</Link>
+          </span>
           <ul style={{ margin: '0' }} className='flexCenter navLists'>
-            <li style={{ margin: '0' }} className='navList cursorPointer'><Link to='/wishlist'><FavoriteRounded fontSize='medium' className='text-red-500' /></Link></li>
+            <li style={{ margin: '0' }} className='navList cursorPointer'>
+              <Link to='/wishlist'>
+                <FavoriteRounded fontSize='medium' className='rounded-lg transition text-red-600 hover:bg-gray-700 hover:text-red-500  ' />
+              </Link>
+            </li>
           </ul>
-          <ShoppingCartRoundedIcon onClick={() => setCart(true)} className='ml-2 cursorPointer navbarCart' />
+          <ShoppingCartRoundedIcon onClick={() => setCart(true)} className='ml-2 transition rounded-lg text-gray-200 hover:bg-gray-700 hover:text-white  cursorPointer navbarCart' />
         </div>
         {/* Sidebar */}
         <div

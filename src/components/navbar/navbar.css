@@ -3,6 +3,7 @@
     padding: 15px 20px;
     justify-content: space-between;
     background-color: #364354;
+    background-color: #202937;
     color: white;
     font-weight: 600;
     position: sticky;
@@ -43,14 +44,15 @@
     margin-left: 20px;
 }
 
-@media(max-width: 700px) {
+@media(max-width: 850px) {
 
     .navLists,
     .navbarOrder {
         margin: 0;
         display: none !important;
     }
-    .navbarBurger {
+
+    .navbarBurger{
         display: block !important;
     }
 

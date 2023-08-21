@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import getCollectionItems from '../../firestoreQuery/getCollectionItems'
 import OrderCard from './orderCard/OrderCard'
+import { useUserState } from '../../context/UserState'
 
 
 export const Order = () => {
     const [data, setdata] = useState([])
+    const [user,] = useUserState()
     useEffect(() => {
         async function fetchData() {
-            const a = await getCollectionItems(localStorage.getItem('uid'), 'orders')
-            a?.sort((item1, item2) => item2.orderDetails.date.seconds - item1.orderDetails.date.seconds)
-            setdata(a)
+            if (localStorage.getItem('uid')) {
+                const a = await getCollectionItems(localStorage.getItem('uid'), 'orders')
+                a?.sort((item1, item2) => item2.orderDetails.date.seconds - item1.orderDetails.date.seconds)
+                setdata(a)
+            }
         }
         fetchData()
-    }, [])
+    }, [user])
 
     return (
         <div className="mx-auto my-4 max-w-6xl px-2 md:my-6 md:px-0">

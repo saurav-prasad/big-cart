@@ -9,28 +9,26 @@ import sliceString from '../../sliceString/sliceString';
 import axios from 'axios';
 import addToSubCollection from '../../firestoreQuery/addToSubCollection';
 import { serverTimestamp } from 'firebase/firestore';
-import getCollectionItems from '../../firestoreQuery/getCollectionItems';
 import { useCartState } from '../../context/cart/CartState';
+import { Backdrop, CircularProgress } from '@mui/material';
 
 export function Checkout() {
+    const [open, setOpen] = useState(false)
     const [address, setAdderess] = useState({ address: "", city: "", name: "", phoneNumber: "", pin: "", state: "" })
     const navigate = useNavigate()
     const { deleteCartItem } = useCartState()
     const [user, dispatch] = useUserState()
+    const [{ userDetails }] = useUserState()
+    const [alert, setAlert] = useState()
     const [products, setProducts] = useState([])
-
-    const handleOnChange = (e) => {
-        setAdderess({
-            ...address,
-            [e.target.id]: e.target.value
-        })
-    }
+    let flag = false;
 
     const handleCheckout = async (amount) => {
         const { data: { key } } = await axios.get('https://razorpayapi.vercel.app/api/getkey')
         const { data } = await axios.post('https://razorpayapi.vercel.app/api/checkout', {
             amount: amount
         })
+        if (key && data) { setOpen(false) }
         const options = {
             key: key, // Enter the Key ID generated from the Dashboard
             amount: data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -56,6 +54,7 @@ export function Checkout() {
                 navigate('/order')
                 dispatch({
                     ...user,
+                    type: 'SET_USER',
                     cart: []
                 })
             },
@@ -76,8 +75,7 @@ export function Checkout() {
         });
     }
 
-    const [{ userDetails }] = useUserState()
-    const [alert, setAlert] = useState()
+
     let totalPrice = 0
     products?.map((product) =>
         totalPrice = totalPrice + product.price * product.qnt
@@ -87,7 +85,7 @@ export function Checkout() {
             setProducts(user?.cart)
             user?.cart?.length === 0 && navigate("/")
         }
-    }, [user.cart])
+    }, [user])
 
     const showAlert = (data) => {
         setAlert(data)
@@ -95,6 +93,24 @@ export function Checkout() {
             setAlert(null);
         }, 800)
     }
+    const handleOnChange = (e) => {
+        setAdderess({
+            ...address,
+            [e.target.id]: e.target.value
+        })
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        Object.values(address).map((a) => {
+            if (a.length >= 2) { flag = true }
+            else { flag = false }
+        })
+        if (flag) {
+            setOpen(true);
+            handleCheckout(totalPrice)
+        }
+    }
+
     return (
         <div className="mx-auto my-4 max-w-4xl md:my-6">
             <div className="overflow-hidden  rounded-xl shadow">
@@ -104,7 +120,7 @@ export function Checkout() {
                         <div className="flow-root">
                             <div className="-my-6 divide-y divide-gray-200">
                                 <div className="py-6">
-                                    <form>
+                                    <form onSubmit={handleSubmit}>
                                         <div className="mx-auto max-w-2xl px-4 lg:max-w-none lg:px-0">
                                             <div>
                                                 <h3
@@ -121,6 +137,7 @@ export function Checkout() {
                                                         Full Name
                                                     </label>
                                                     <input
+                                                        required
                                                         onChange={handleOnChange}
                                                         className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                                         type="text"
@@ -137,8 +154,9 @@ export function Checkout() {
                                                         Contact number
                                                     </label>
                                                     <input
+                                                        required
                                                         className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                                                        type="number"
+                                                        type="text"
                                                         placeholder="Enter your contact number"
                                                         id="phoneNumber"
                                                         onChange={handleOnChange}
@@ -159,6 +177,7 @@ export function Checkout() {
                                                         </label>
                                                         <div className="mt-1">
                                                             <input
+                                                                required
                                                                 type="text"
                                                                 id="address"
                                                                 name="address"
@@ -178,6 +197,7 @@ export function Checkout() {
                                                         </label>
                                                         <div className="mt-1">
                                                             <input
+                                                                required
                                                                 type="text"
                                                                 id="city"
                                                                 name="city"
@@ -197,6 +217,7 @@ export function Checkout() {
                                                         </label>
                                                         <div className="mt-1">
                                                             <input
+                                                                required
                                                                 type="text"
                                                                 id="state"
                                                                 name="region"
@@ -216,7 +237,8 @@ export function Checkout() {
                                                         </label>
                                                         <div className="mt-1">
                                                             <input
-                                                                type="number"
+                                                                required
+                                                                type="text"
                                                                 id="pin"
                                                                 name="postal-code"
                                                                 autoComplete="postal-code"
@@ -236,9 +258,8 @@ export function Checkout() {
                                                     </li>
                                                 </ul>
                                                 <button
-                                                    type="button"
+                                                    type="submit"
                                                     className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                                                    onClick={() => handleCheckout(totalPrice)}
                                                 >
                                                     Make payment
                                                 </button>
@@ -299,7 +320,14 @@ export function Checkout() {
                 </div>
             </div>
             <Alrt showAlert={alert?.status} text={alert?.text} type={alert?.type} />
-
+            <div>
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={open}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
+            </div>
         </div>
     )
 }
