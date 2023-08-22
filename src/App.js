@@ -14,6 +14,7 @@ import WishList from './components/wishList/WishList';
 import { ErrorPage } from './components/404Page/ErrorPage';
 import { Checkout } from './components/checkout/Checkout';
 import { Order } from './components/order/Order';
+import Profile from './components/profile/Profile';
 
 const category = ['phones', 'laptop', 'clothing', 'camera']
 
@@ -45,12 +46,7 @@ function App() {
     if (docSnap.exists()) {
       dispatch({
         type: "SET_USER",
-        userDetails: {
-          name: docSnap.data().userDetails.name,
-          email: docSnap.data().userDetails.email,
-          photo: docSnap.data().userDetails.photo,
-          uid: docSnap.data().userDetails.uid,
-        },
+        userDetails: docSnap.data().userDetails,
         cart: await getCollectionItems(docSnap.data().userDetails.uid, "cart"),
         wishList: await getCollectionItems(docSnap.data().userDetails.uid, "wishList"),
       })
@@ -94,6 +90,10 @@ function App() {
         {
           path: "/order",
           element: <Order />,
+        },
+        {
+          path: "/profile",
+          element: <Profile />,
         },
       ],
     },

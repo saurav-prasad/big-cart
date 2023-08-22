@@ -4,6 +4,7 @@ import { Link, Navigate, Outlet, useLocation, useNavigation, useParams } from 'r
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
 import Test from '../Test'
 import WishList from '../wishList/WishList'
+import Profile from '../profile/Profile'
 
 function Home() {
   return (

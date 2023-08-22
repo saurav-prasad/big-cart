@@ -54,5 +54,12 @@
 }
 
 .cardWish {
-    color: #ff3f6c;
+    font-size: 2.2rem !important;
+    padding: 1px 4px;
+    color: #fd3664;
+}
+.cardWish:active {
+    color: #ff0000;
+    transform: scale(0.6);
+    transition: all 300ms ease;
 }

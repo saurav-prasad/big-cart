@@ -5,7 +5,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ShoppingCartRoundedIcon from '@mui/icons-material/ShoppingCartRounded';
 import Cart from '../cart/Cart';
 import googleLogin from '../../login';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import db from '../../firebase';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { useUserState } from '../../context/UserState';
@@ -49,7 +49,6 @@ function Navbar() {
   const [Nav, setNav] = useState(false)
   const [cart, setCart] = useState(false)
   const [userInfo, setUserInfo] = useState()
-  const [cartLength, setcartLength] = useState(0)
   const navigate = useNavigate()
   const location = useLocation()
   const loginUser = async () => {
@@ -75,25 +74,50 @@ function Navbar() {
   useEffect(() => {
     async function fetchData() {
       if (userInfo) {
-        await setDoc(doc(db, "users", userInfo.uid), {
-          userDetails: {
-            name: userInfo.displayName,
-            email: userInfo.email,
-            photo: userInfo.photoURL,
-            uid: userInfo.uid,
-          }
-        });
-        localStorage.setItem('uid', userInfo.uid)
-        dispatch({
-          type: 'SET_USER',
-          userDetails: {
-            name: userInfo.displayName,
-            email: userInfo.email,
-            photo: userInfo.photoURL,
-            uid: userInfo.uid,
-          },
-          cart: await getCollectionItems(userInfo.uid, "cart")
-        })
+        const docRef = doc(db, "users", userInfo.uid);
+        const docSnap = await getDoc(docRef)
+
+        if (docSnap.exists()) {
+          console.log(docSnap.data().userDetails.phoneNumber);
+          const docData = docSnap.data().userDetails;
+          dispatch({
+            type: 'SET_USER',
+            userDetails: {
+              name: userInfo.displayName,
+              email: userInfo.email,
+              photo: userInfo.photoURL,
+              uid: userInfo.uid,
+              phoneNumber: docSnap.data().userDetails.phoneNumber,
+            },
+            adderss: docSnap?.data()?.address,
+            cart: await getCollectionItems(docData.uid, "cart")
+          })
+          localStorage.setItem('uid', docData.uid)
+
+        }
+        else {
+          // docSnap.data() will be undefined in this case
+          console.log("No such document!");
+          await setDoc(doc(db, "users", userInfo.uid), {
+            userDetails: {
+              name: userInfo.displayName,
+              email: userInfo.email,
+              photo: userInfo.photoURL,
+              uid: userInfo.uid,
+            }
+          });
+          dispatch({
+            type: 'SET_USER',
+            userDetails: {
+              name: userInfo.displayName,
+              email: userInfo.email,
+              photo: userInfo.photoURL,
+              uid: userInfo.uid,
+            },
+            cart: await getCollectionItems(userInfo.uid, "cart")
+          })
+          localStorage.setItem('uid', userInfo.uid)
+        }
       }
     }
 
@@ -152,11 +176,12 @@ function Navbar() {
                 <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <Menu.Item>
                     {({ active }) => (
-                      <span
+                      <Link
+                        to='/profile'
                         className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                       >
                         Your Profile
-                      </span>
+                      </Link>
                     )}
                   </Menu.Item>
                   <Menu.Item>

@@ -9,7 +9,6 @@ import { ProductState } from './context/products/ProductState';
 import productReducer, { productInitialState } from './context/products/ProductReducer';
 import { CartState } from './context/cart/CartState';
 import { WishListState } from './context/wishList/WishListState';
-import Skeletonn from './components/skeleton/Skeleton';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,7 +17,6 @@ root.render(
       <UserState initialState={userInitialState} reducer={userReducer}>
         <CartState>
           <WishListState>
-            {/* <Skeletonn/> */}
             <App />
           </WishListState>
         </CartState>

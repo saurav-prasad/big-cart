@@ -37,8 +37,6 @@ export default function ProductDetail() {
         }
     }, [products, params.productid])
 
-    const name = product?.name
-
     const addToWishList = () => {
         localStorage?.getItem('uid') ? addToWish() : showAlert({ status: true, text: 'Sign-in first', type: 'error' })
     }
@@ -91,7 +89,7 @@ export default function ProductDetail() {
                                             {product?.discountPrice && `₹${currencyFormatter(product?.discountPrice)}`}
                                         </span>
                                     </div>
-                                    <FavoriteRounded onClick={addToWishList} fontSize='medium' className=' text-red-600 cursor-pointer' />
+                                    <FavoriteRounded onClick={addToWishList}  className='cardWish cursor-pointer' />
                                 </div>
                             </div>
                             <div className="space-s-4 3xl:pr-48 flex items-center gap-2 border-b border-gray-300 py-8  md:pr-0 lg:pr-0 2xl:pr-0">

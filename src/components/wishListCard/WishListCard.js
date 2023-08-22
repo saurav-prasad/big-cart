@@ -32,7 +32,7 @@ function WishListCard({ product, showAlert }) {
                 alt={product.name}
                 className="object-contain h-72 w-full rounded-md md:aspect-auto md:h-[300px] lg:h-[200px]"
             />
-            <FavoriteTwoToneIcon onClick={() => removeFromWishList()} fontSize='medium' className='absolute right-2 top-2 text-red-600 cursor-pointer' />
+            <FavoriteTwoToneIcon onClick={() => removeFromWishList()} fontSize='medium' className='absolute right-2 top-2 cardWish cursor-pointer' />
             <div className="p-4">
                 <h1 onClick={() => { navigate(`/detail/${product.productId}`) }} className="inline-flex items-center text-lg font-semibold">{sliceString(product.name, 20)}</h1>
                 <p onClick={() => { navigate(`/detail/${product.productId}`) }} className="mt-3 text-sm text-gray-600">
