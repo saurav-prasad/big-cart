@@ -7,6 +7,7 @@ export const actionTypes = {
     unsetProduct: 'UNSET_PRODUCT'
 }
 const productReducer = (state, action) => {
+    // console.log(action);
     switch (action.type) {
         case actionTypes.setProduct:
             return { ...state, products: action.products }

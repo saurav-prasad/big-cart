@@ -15,25 +15,29 @@ import { ErrorPage } from './components/404Page/ErrorPage';
 import { Checkout } from './components/checkout/Checkout';
 import { Order } from './components/order/Order';
 import Profile from './components/profile/Profile';
+import SellerHome from './components/seller/sellerHome/SellerHome';
+import SellerNavbar from './components/seller/sellerNav/SellerNavbar';
+import Inventory from './components/seller/inventory/Inventory';
+import FullLayout from './components/seller/fullLayout/FullLayout';
 
 const category = ['phones', 'laptop', 'clothing', 'camera']
 
 
 function App() {
 
-  const [{ }, dispatch] = useUserState()
-  const [{ products }, productDispatch] = useProductState()
+  const [, dispatch] = useUserState()
+  const [, productDispatch] = useProductState()
 
   // all the products
   const fetchProducts = async () => {
-    let tempo = [];
+    let products = [];
     for (const data of category) {
-      const products = await getProducts(data);
-      tempo = tempo.concat(products);
+      const a = await getProducts(data);
+      products = products.concat(a);
     }
     productDispatch({
       type: 'SET_PRODUCT',
-      products: tempo
+      products
     })
     // console.log(tempo);
   }
@@ -62,6 +66,7 @@ function App() {
 
   // routes
   const router = createBrowserRouter([
+    // user routes
     {
       path: "/",
       element: <Home />,
@@ -94,6 +99,33 @@ function App() {
         {
           path: "/profile",
           element: <Profile />,
+        },
+      ],
+    },
+    //  seller routes
+    {
+      path: "/seller",
+      element: <SellerHome />,
+      children: [
+        {
+          path: "/seller",
+          element: <FullLayout />,
+
+        },
+        {
+          path: "/seller/inventory",
+          element: <Inventory />,
+
+        },
+        {
+          path: "/seller/order",
+          element: <Inventory />,
+
+        },
+        {
+          path: "/seller/addproduct",
+          element: <Inventory />,
+
         },
       ],
     },

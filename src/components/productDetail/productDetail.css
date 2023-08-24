@@ -10,13 +10,3 @@
 .productDetailLove {
     font-size: 1.9rem !important;
 }
-.cardWish {
-    font-size: 2.2rem !important;
-    padding: 1px 4px;
-    color: #fd3664;
-}
-.cardWish:active {
-    color: #ff0000;
-    transform: scale(0.6);
-    transition: all 350ms ease;
-}

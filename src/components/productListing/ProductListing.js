@@ -9,7 +9,7 @@ import Skeletonn from '../skeleton/Skeleton'
 
 function ProductListing() {
 
-    const [{ products },] = useProductState()
+    const [ {products} ,] = useProductState()
     const params = useParams()
     let product = products
 
