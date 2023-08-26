@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, } from 'react';
 import './App.css';
 import Home from './components/home/Home';
-import { addDoc, collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
+import {  doc, getDoc,  } from 'firebase/firestore';
 import db from './firebase';
 import { useUserState } from './context/UserState';
 import getCollectionItems from './firestoreQuery/getCollectionItems';
 import getProducts from './firestoreQuery/getProducts';
 import { useProductState } from './context/products/ProductState';
-import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements, useRoutes } from 'react-router-dom';
+import {  RouterProvider, createBrowserRouter, } from 'react-router-dom';
 import ProductListing from './components/productListing/ProductListing';
 import ProductDetail from './components/productDetail/ProductDetail';
 import WishList from './components/wishList/WishList';
@@ -16,9 +16,11 @@ import { Checkout } from './components/checkout/Checkout';
 import { Order } from './components/order/Order';
 import Profile from './components/profile/Profile';
 import SellerHome from './components/seller/sellerHome/SellerHome';
-import SellerNavbar from './components/seller/sellerNav/SellerNavbar';
 import Inventory from './components/seller/inventory/Inventory';
 import FullLayout from './components/seller/fullLayout/FullLayout';
+import AddProduct from './components/seller/addProduct/AddProduct';
+import SellerOrders from './components/seller/sellerOrder/SellerOrder';
+import { SellerSignup } from './components/seller/sellerAuth/SellerSignup';
 
 const category = ['phones', 'laptop', 'clothing', 'camera']
 
@@ -108,6 +110,11 @@ function App() {
       element: <SellerHome />,
       children: [
         {
+          path: "/seller/signup",
+          element: <SellerSignup/>,
+
+        },
+        {
           path: "/seller",
           element: <FullLayout />,
 
@@ -118,13 +125,13 @@ function App() {
 
         },
         {
-          path: "/seller/order",
-          element: <Inventory />,
+          path: "/seller/orders",
+          element: <SellerOrders />,
 
         },
         {
           path: "/seller/addproduct",
-          element: <Inventory />,
+          element: <AddProduct />,
 
         },
       ],

@@ -9,6 +9,8 @@ import { ProductState } from './context/products/ProductState';
 import productReducer, { productInitialState } from './context/products/ProductReducer';
 import { CartState } from './context/cart/CartState';
 import { WishListState } from './context/wishList/WishListState';
+import { SellerState } from './components/seller/sellerContext/SellerState';
+import sellerReducer, { sellerInitialState } from './components/seller/sellerContext/SellerReducer';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,7 +19,9 @@ root.render(
       <UserState initialState={userInitialState} reducer={userReducer}>
         <CartState>
           <WishListState>
-            <App />
+            <SellerState initialState={sellerInitialState} reducer={sellerReducer}>
+              <App />
+            </SellerState>
           </WishListState>
         </CartState>
       </UserState>

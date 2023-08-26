@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 function SellerSidebar({menuItems}) {
     return (
-        <div className=' h-fit w-fit py-5 px-4'>
+        <div className='h-full w-fit py-5 px-4 bg-white shadow-2xl'>
             <h1 className="font-bold text-xl mb-8 text-left pl-4">Big-Cart / Seller</h1>
             <ul>
                 {menuItems.map((data) =>

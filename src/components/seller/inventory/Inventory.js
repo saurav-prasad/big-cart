@@ -1,54 +1,64 @@
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import React from 'react'
+import { useProductState } from '../../../context/products/ProductState'
+import sliceString from '../../../sliceString/sliceString';
+import { Skeleton } from '@mui/material';
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
+function Inventory() {
+  const [{ products }] = useProductState()
+//   console.log(products);
+  return (
+    <div className='rounded-lg shadow-2xl overflow-x-auto p-5 my-8 bg-white'>
+      {/* header */}
+      <div className='w-full'>
+        <h1 className='text-left font-medium text-3xl mb-1'>Your Inventory</h1>
+        <p className='text-left text-sm'>Overview of your products</p>
+      </div>
+      {/* table */}
+      <div style={{ minWidth: '600px' }} className="flex flex-col justify-center items-middle mt-10 divide-y divide-gray-100">
+        {/* table heading */}
+        <div className='flex py-4 px-2 flex-row justify-between items-center align-middle'>
+          <span className='font-medium mr-4 text-left w-32'>Product-ID</span>
+          <span className='font-medium mr-4 text-center w-16'>Image</span>
+          <span className='font-medium mr-4 text-center w-32'>Name</span>
+          <span className='font-medium mr-4 text-center w-32'>Description</span>
+          <span className='font-medium mr-4 text-center w-28'>Tags</span>
+          <span className='font-medium mr-4 text-left w-20'>Orig. Price</span>
+          <span className='font-medium text-left w-20'>Sale Price</span>
+        </div>
+        {/* table products list */}
+        {
+          products ?
+            products?.map((data) =>
+              <div className='flex py-4 px-2 flex-row justify-between items-center align-middle'>
+                <span className='font-normal truncate text-sm mr-4 text-left  text-gray-700 w-32'>#{data.productId}</span>
+                <img
+                  alt='Products'
+                  src={data.imageSrc}
+                  className="inline-block w-16 object-contain rounded-lg mr-4"
+                />
+                <span className='font-normal text-sm mr-4  text-gray-700 w-32'>{sliceString(data.name, 50)}</span>
+                <span className='font-normal text-sm mr-4 text-gray-700 w-32'>{sliceString(data?.description, 50)}</span>
+                <span className='font-normal text-sm mr-4 text-gray-700 w-32'>{sliceString(data.tags, 50)}</span>
+                <span className='font-normal text-sm mr-4 text-gray-700 text-left w-20'>₹2592</span>
+                <span className='font-normal text-sm text-gray-700 text-left w-20'>₹{data.price}</span>
+              </div>
+            ) :
+
+            Array.from({ length: 10 }).map((_) =>
+              <div className='flex py-4 px-2 flex-row justify-between items-center align-middle'>
+                <Skeleton className='mr-4 w-32' variant="text" sx={{ fontSize: '1rem' }} />
+                <Skeleton className='mr-4 w-32' variant="rounded" width={50} height={50} />
+                <Skeleton className='mr-4 w-32' variant="text" sx={{ fontSize: '2rem' }} />
+                <Skeleton className='mr-4 w-32' variant="text" sx={{ fontSize: '2rem' }} />
+                <Skeleton className='mr-4 w-32' variant="text" sx={{ fontSize: '1.5rem' }} />
+                <Skeleton className='mr-4 w-20' variant="text" sx={{ fontSize: '1.5rem' }} />
+                <Skeleton className='mr-4 w-20' variant="text" sx={{ fontSize: '1.5rem' }} />
+              </div>
+            )
+        }
+      </div>
+    </div>
+  )
 }
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
-export default function Inventory() {
-    return (
-        <TableContainer sx={{ maxWidth: 1000 }} component={Paper}>
-            <Table sx={{ minWidth: 650, }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Dessert (100g serving)</TableCell>
-                        <TableCell align="right">Calories</TableCell>
-                        <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                        <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                        <TableCell align="right">Protein&nbsp;(g)</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row) => (
-                        <TableRow
-                            key={row.name}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell component="th" scope="row">
-                                {row.name}
-                            </TableCell>
-                            <TableCell align="right">{row.calories}</TableCell>
-                            <TableCell align="right">{row.fat}</TableCell>
-                            <TableCell align="right">{row.carbs}</TableCell>
-                            <TableCell align="right">{row.protein}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
-    );
-}
+export default Inventory

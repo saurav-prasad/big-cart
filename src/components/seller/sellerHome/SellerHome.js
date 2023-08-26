@@ -1,8 +1,10 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
 import SellerNavbar from '../sellerNav/SellerNavbar'
 import Test from '../Test'
 import SellerSidebar from '../sellerSidebar/SellerSidebar'
+import { SellerState, useSellerState } from '../sellerContext/SellerState'
+import sellerReducer, { sellerInitialState } from '../sellerContext/SellerReducer'
 
 const menuItems = [
     {
@@ -29,20 +31,32 @@ const menuItems = [
 ]
 
 function SellerHome() {
+    const navigate = useNavigate()
+    const location = useLocation()
+    const [{ sellerDetails },] = useSellerState()
+    useEffect(() => {
+        if (!sellerDetails) {
+            navigate('/seller/signup')
+        }
+    }, [location.pathname])
+    
     return (
         <>
-            <div className='flex bg-blue-50 '>
-                <div className='  bg-white shadow-xl'>
+            {/* <SellerState reducer={sellerReducer} initialState={sellerInitialState}> */}
+            <div className='xl:flex bg-blue-50 min-h-screen'>
+                <div className='xl:block hidden  bg-white shadow-xl'>
                     <SellerSidebar menuItems={menuItems} />
                 </div>
 
-                <div className='flex-1 '>
+                <div className=' flex-1 pb-8'>
                     <SellerNavbar menuItems={menuItems} />
-                    <div className='flex justify-center overflow-x-scroll'>
-                        <Test />
+
+                    <div className='xl:flex justify-center px-3 mt-8 items-start'>
+                        <Outlet />
                     </div>
                 </div>
             </div>
+            {/* </SellerState> */}
         </>
     )
 }
