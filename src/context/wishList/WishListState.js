@@ -22,7 +22,7 @@ export const WishListState = ({ children }) => {
             if (!foundObject) {
                 const docRef = doc(db, "users", user.userDetails.uid);
                 const docSnap = await getDoc(docRef);
-                await addToSubCollection("users", "wishList", product)
+                await addToSubCollection("users", user.userDetails.uid, "wishList", product)
                 const updatedCart = await getCollectionItems(docSnap.data().userDetails.uid, "wishList")
                 // console.log("newObject", updatedCart);
                 updatedCart && dispatch({

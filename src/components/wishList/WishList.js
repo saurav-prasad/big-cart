@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import WishListCard from '../wishListCard/WishListCard'
-import getRealTimeSubcollection from '../../firestoreQuery/getRealTimeSubcolletion'
 import { useUserState } from '../../context/UserState'
 import Loader from '../loader/Loader'
-import addToSubCollection from '../../firestoreQuery/addToSubCollection'
-import deleteFromSubcollection from '../../firestoreQuery/deleteFromSubcollection'
 import Alrt from '../alrt/Alrt'
-import { useWishListState } from '../../context/wishList/WishListState'
-import { useCartState } from '../../context/cart/CartState'
 
 function WishList() {
     const [{ userDetails, wishList }] = useUserState()

@@ -37,7 +37,7 @@ function Test() {
         localStorage?.getItem('uid') ? getData() : showAlert({ status: true, text: 'Sign-in first', type: 'error' })
     }
     const getData = () => {
-        addToSubCollection('users', 'cart', { ...product, qnt })
+        addToSubCollection('users',localStorage.getItem('uid'), 'cart', { ...product, qnt })
         showAlert({ status: true, text: 'Item added to cart', type: 'success' })
     }
     const showAlert = (data) => {

@@ -8,7 +8,6 @@ import { useParams } from 'react-router-dom';
 import Loader from '../loader/Loader';
 import currencyFormatter from '../../currencyFormatter/currencyFormatter';
 import sliceString from '../../sliceString/sliceString';
-import addToSubCollection from '../../firestoreQuery/addToSubCollection';
 import Alrt from '../alrt/Alrt';
 import { FavoriteRounded } from '@mui/icons-material';
 import { useCartState } from '../../context/cart/CartState';

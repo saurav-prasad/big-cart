@@ -4,9 +4,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useNavigate } from 'react-router-dom';
 import currencyFormatter from '../../currencyFormatter/currencyFormatter';
 import sliceString from '../../sliceString/sliceString';
-import addToSubCollection from '../../firestoreQuery/addToSubCollection';
 import Alrt from '../alrt/Alrt';
-import { useCartState } from '../../context/cart/CartState';
 import { useWishListState } from '../../context/wishList/WishListState';
 
 function Card({ product }) {

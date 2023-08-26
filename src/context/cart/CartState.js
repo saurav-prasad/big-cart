@@ -16,7 +16,7 @@ export const CartState = ({ children }) => {
         console.log(product);
         const targetId = product.productId;
         const foundObject = user?.cart?.find(obj => obj?.productId === targetId);
-        console.log(foundObject);
+        // console.log(foundObject);
         if (foundObject) {
             try {
 
@@ -37,7 +37,7 @@ export const CartState = ({ children }) => {
             }
         } else {
             try {
-                await addToSubCollection("users", "cart", product)
+                await addToSubCollection("users", user.userDetails.uid, "cart", product)
                 const docRef = doc(db, "users", user.userDetails.uid);
                 const docSnap = await getDoc(docRef);
                 const updatedCart = await getCollectionItems(docSnap.data().userDetails.uid, "cart")

@@ -33,13 +33,13 @@ const menuItems = [
 function SellerHome() {
     const navigate = useNavigate()
     const location = useLocation()
-    const [{ sellerDetails },] = useSellerState()
+    const [seller,] = useSellerState()
     useEffect(() => {
-        if (!sellerDetails) {
+        if (!seller.sellerDetails) {
             navigate('/seller/signup')
         }
-    }, [location.pathname])
-    
+    }, [location.pathname,seller])
+
     return (
         <>
             {/* <SellerState reducer={sellerReducer} initialState={sellerInitialState}> */}
