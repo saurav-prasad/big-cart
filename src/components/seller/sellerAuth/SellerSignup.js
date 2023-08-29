@@ -24,16 +24,17 @@ export function SellerSignup() {
             const docSnap = await getDoc(docRef)
 
             if (docSnap.exists()) {
+                console.log(userDetail);
                 const docData = docSnap.data();
                 dispatch({
                     type: 'SET_SELLER',
                     sellerDetails: docData,
                 })
-
+                navigate('/seller')
             }
             else {
                 // docSnap.data() will be undefined in this case
-                console.log("No such document!");
+                console.log(userDetail);
                 await setDoc(doc(db, "seller", userDetail.uid), {
                     name: userDetail.displayName,
                     email: userDetail.email,
@@ -51,8 +52,8 @@ export function SellerSignup() {
                         phoneNumber: userDetail?.uid,
                     },
                 })
+                navigate('/seller')
             }
-
         } catch (error) {
             console.error('Login error:', error);
             console.log(error)
@@ -92,6 +93,7 @@ export function SellerSignup() {
                         phoneNumber: cred1.phoneNumber
                     },
                 })
+                setCreateAccount(false)
             })
             .catch((error) => {
                 const errorCode = error.code;

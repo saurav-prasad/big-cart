@@ -45,8 +45,8 @@ export function Checkout() {
                     "total": amount,
                     "date": serverTimestamp()
                 }
-                await addToSubCollection("orders", "order", { orderDetails, products: products, address })
-                await addToSubCollection("users", "orders", { orderDetails, products: products, address })
+                await addToSubCollection("orders", user.userDetails.uid, "order", { orderDetails, products: products, address })
+                await addToSubCollection("users", user.userDetails.uid, "orders", { orderDetails, products: products, address })
                 for (const iterator of user.cart) {
                     console.log("iterator1", iterator);
                     await deleteFromSubcollection("users", "cart", iterator.id)

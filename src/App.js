@@ -36,6 +36,7 @@ function App() {
     for (const data of category) {
       const a = await getProducts(data);
       products = products.concat(a);
+      console.log(products);
     }
     productDispatch({
       type: 'SET_PRODUCT',

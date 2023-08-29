@@ -4,8 +4,9 @@ import db from "../firebase";
 const getProducts = async (category) => {
     const productsRef = collection(db, "products");
     const querySnapshot = await getDocs(productsRef);
-
+    console.log(querySnapshot);
     const fetchData = async (ids) => {
+        console.log(ids);
         const temp = [];
         for (const id of ids) {
             const subcollectionRef = collection(db, "products", id, category);
@@ -22,6 +23,5 @@ const getProducts = async (category) => {
     const result = await fetchData(docIds);
     return result;
 };
-
 
 export default getProducts

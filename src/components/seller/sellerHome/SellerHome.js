@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react'
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate,  } from 'react-router-dom'
 import SellerNavbar from '../sellerNav/SellerNavbar'
 import Test from '../Test'
 import SellerSidebar from '../sellerSidebar/SellerSidebar'
-import { SellerState, useSellerState } from '../sellerContext/SellerState'
-import sellerReducer, { sellerInitialState } from '../sellerContext/SellerReducer'
+import {  useSellerState } from '../sellerContext/SellerState'
 
 const menuItems = [
     {
@@ -38,11 +37,10 @@ function SellerHome() {
         if (!seller.sellerDetails) {
             navigate('/seller/signup')
         }
-    }, [location.pathname,seller])
+    }, [location.pathname, seller])
 
     return (
         <>
-            {/* <SellerState reducer={sellerReducer} initialState={sellerInitialState}> */}
             <div className='xl:flex bg-blue-50 min-h-screen'>
                 <div className='xl:block hidden  bg-white shadow-xl'>
                     <SellerSidebar menuItems={menuItems} />
@@ -53,10 +51,10 @@ function SellerHome() {
 
                     <div className='xl:flex justify-center px-3 mt-8 items-start'>
                         <Outlet />
+                        {/* <Test /> */}
                     </div>
                 </div>
             </div>
-            {/* </SellerState> */}
         </>
     )
 }

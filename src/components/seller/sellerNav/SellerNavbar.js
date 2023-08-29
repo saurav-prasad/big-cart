@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import './sellerNavbar.css'
-import { Link, } from 'react-router-dom'
+import { Link, useNavigate, } from 'react-router-dom'
 import { useSellerState } from '../sellerContext/SellerState'
 import sliceString from '../../../sliceString/sliceString'
 import { Menu, Transition } from '@headlessui/react'
@@ -12,7 +12,7 @@ function classNames(...classes) {
 function SellerNavbar({ menuItems }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [{ sellerDetails }, dispatch] = useSellerState()
-
+  const navigate = useNavigate()
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
@@ -23,6 +23,7 @@ function SellerNavbar({ menuItems }) {
       dispatch({
         type: "UNSET_SELLER",
       })
+      navigate('/seller/signup')
     }).catch((error) => {
       // An error happened.
       console.log(error);
