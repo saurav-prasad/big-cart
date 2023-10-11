@@ -7,10 +7,12 @@ import { useUserState } from '../../context/UserState'
 export const Order = () => {
     const [data, setdata] = useState([])
     const [user,] = useUserState()
+    const [{ userDetails }, dispatch] = useUserState()
+
     useEffect(() => {
         async function fetchData() {
-            if (localStorage.getItem('uid')) {
-                const a = await getCollectionItems(localStorage.getItem('uid'), 'orders')
+            if (user.userDetails) {
+                const a = await getCollectionItems(userDetails.uid, 'orders')
                 a?.sort((item1, item2) => item2.orderDetails.date.seconds - item1.orderDetails.date.seconds)
                 setdata(a)
             }

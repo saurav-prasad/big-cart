@@ -15,12 +15,6 @@ import { ErrorPage } from './components/404Page/ErrorPage';
 import { Checkout } from './components/checkout/Checkout';
 import { Order } from './components/order/Order';
 import Profile from './components/profile/Profile';
-import SellerHome from './components/seller/sellerHome/SellerHome';
-import Inventory from './components/seller/inventory/Inventory';
-import FullLayout from './components/seller/fullLayout/FullLayout';
-import AddProduct from './components/seller/addProduct/AddProduct';
-import SellerOrders from './components/seller/sellerOrder/SellerOrder';
-import { SellerSignup } from './components/seller/sellerAuth/SellerSignup';
 
 const category = ['phones', 'laptop', 'clothing', 'camera']
 
@@ -36,7 +30,7 @@ function App() {
     for (const data of category) {
       const a = await getProducts(data);
       products = products.concat(a);
-      console.log(products);
+      // console.log(products);
     }
     productDispatch({
       type: 'SET_PRODUCT',
@@ -102,38 +96,6 @@ function App() {
         {
           path: "/profile",
           element: <Profile />,
-        },
-      ],
-    },
-    //  seller routes
-    {
-      path: "/seller",
-      element: <SellerHome />,
-      children: [
-        {
-          path: "/seller/signup",
-          element: <SellerSignup/>,
-
-        },
-        {
-          path: "/seller",
-          element: <FullLayout />,
-
-        },
-        {
-          path: "/seller/inventory",
-          element: <Inventory />,
-
-        },
-        {
-          path: "/seller/orders",
-          element: <SellerOrders />,
-
-        },
-        {
-          path: "/seller/addproduct",
-          element: <AddProduct />,
-
         },
       ],
     },

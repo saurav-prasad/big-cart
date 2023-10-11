@@ -1,4 +1,4 @@
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import db from "../firebase";
 
 const getCollectionItems = async (uid, coll) => {

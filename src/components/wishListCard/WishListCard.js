@@ -1,4 +1,4 @@
-import React, { useCallback, } from 'react'
+import React from 'react'
 import './wishListCard.css'
 import { useNavigate } from 'react-router-dom'
 import sliceString from '../../sliceString/sliceString'
@@ -16,9 +16,8 @@ function WishListCard({ product, showAlert }) {
         showAlert({ status: true, text: 'Item added to cart', type: 'success' });
         addCart({ ...product, qnt: 1 });
     }
-
+    
     const removeFromWishList = () => {
-        console.log("removeFromWishList", product);
         showAlert({ status: true, text: 'Item removed from WishList', type: 'success' });
         // deleteWishItem(product);
         deleteItem(product)

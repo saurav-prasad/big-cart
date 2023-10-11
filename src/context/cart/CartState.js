@@ -13,7 +13,7 @@ export const CartState = ({ children }) => {
     const [user, dispatch] = useUserState()
 
     const addCart = async (product) => {
-        console.log(product);
+        // console.log(product);
         const targetId = product.productId;
         const foundObject = user?.cart?.find(obj => obj?.productId === targetId);
         // console.log(foundObject);
@@ -25,8 +25,8 @@ export const CartState = ({ children }) => {
                 );
                 const docref = doc(db, "users", localStorage.getItem("uid"), "cart", foundObject?.id);
                 await updateDoc(docref, { qnt: foundObject?.qnt + product?.qnt })
-                console.log("updatedCart", updatedCart);
-                console.log("wishlist from cartstate 29", user.wishList);
+                // console.log("updatedCart", updatedCart);
+                // console.log("wishlist from cartstate 29", user.wishList);
                 dispatch({
                     ...user,
                     type: "SET_USER",
@@ -42,8 +42,8 @@ export const CartState = ({ children }) => {
                 const docSnap = await getDoc(docRef);
                 const updatedCart = await getCollectionItems(docSnap.data().userDetails.uid, "cart")
                 // const updatedCart = [...user?.cart, product]
-                console.log("wishlist from cartstate 45", user.wishList);
-                console.log("newObject updatedCart  ", updatedCart);
+                // console.log("wishlist from cartstate 45", user.wishList);
+                // console.log("newObject updatedCart  ", updatedCart);
                 dispatch({
                     ...user,
                     type: "SET_USER",

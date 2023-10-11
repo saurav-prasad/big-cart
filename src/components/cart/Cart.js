@@ -21,7 +21,7 @@ export default function Cart({ setCart }) {
 
   useEffect(() => {
     if (userDetails) {
-      console.log(cart);
+      // console.log(cart);
       setData(cart)
     }
   }, [user, cart])

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Alert } from '@mui/material';
 import './alrt.css'
 function Alrt({ showAlert, text, type }) {

@@ -1,6 +1,3 @@
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
 import './productDetail.css'
 import { useProductState } from '../../context/products/ProductState';
 import { useEffect, useState } from 'react';
@@ -120,18 +117,17 @@ export default function ProductDetail() {
                                 <ul className="space-y-5 pb-1 text-sm">
                                     <li>
                                         <span className="text-heading inline-block pr-2 font-semibold">Category:</span>
-                                        <a className="hover:text-heading transition hover:underline" href="#">
+                                        <span className="hover:text-heading transition hover:underline" >
                                             {product.category}
-                                        </a>
+                                        </span>
                                     </li>
                                     <li className="productTags">
                                         <span className="text-heading inline-block pr-2 font-semibold">Tags:</span>
-                                        <a
+                                        <span
                                             className="hover:text-heading inline-block pr-1.5 transition last:pr-0 hover:underline"
-                                            href="#"
                                         >
                                             {product.tags && product?.tags}
-                                        </a>
+                                        </span>
                                     </li>
                                 </ul>
                             </div>

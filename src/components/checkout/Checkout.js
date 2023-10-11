@@ -8,9 +8,10 @@ import Alrt from '../alrt/Alrt';
 import sliceString from '../../sliceString/sliceString';
 import axios from 'axios';
 import addToSubCollection from '../../firestoreQuery/addToSubCollection';
-import { serverTimestamp } from 'firebase/firestore';
+import { collection, deleteDoc, getDocs, query, serverTimestamp } from 'firebase/firestore';
 import { useCartState } from '../../context/cart/CartState';
 import { Backdrop, CircularProgress } from '@mui/material';
+import db from '../../firebase';
 
 export function Checkout() {
     const [open, setOpen] = useState(false)
@@ -47,10 +48,11 @@ export function Checkout() {
                 }
                 await addToSubCollection("orders", user.userDetails.uid, "order", { orderDetails, products: products, address })
                 await addToSubCollection("users", user.userDetails.uid, "orders", { orderDetails, products: products, address })
-                for (const iterator of user.cart) {
-                    console.log("iterator1", iterator);
-                    await deleteFromSubcollection("users", "cart", iterator.id)
-                }
+                // for (const iterator of user.cart) {
+                //     // console.log("iterator1", iterator);
+                //     await deleteFromSubcollection("users", "cart", iterator.id)
+                // }
+                deleteCollection(`users/${user.userDetails.uid}/cart`)
                 navigate('/order')
                 dispatch({
                     ...user,
@@ -74,6 +76,25 @@ export function Checkout() {
             alert(response.error.metadata.payment_id);
         });
     }
+
+
+    const deleteCollection = async (collectionPath) => {
+
+        try {
+            const q = query(collection(db, collectionPath));
+            const querySnapshot = await getDocs(q);
+
+            querySnapshot.forEach((doc) => {
+                deleteDoc(doc.ref);
+            });
+
+            console.log('Collection deleted successfully.');
+        } catch (error) {
+            console.error('Error deleting collection:', error);
+        }
+    };
+
+
 
 
     let totalPrice = 0

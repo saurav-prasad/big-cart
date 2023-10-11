@@ -5,14 +5,12 @@ import db from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import deleteFromSubcollection from "../../firestoreQuery/deleteFromSubcollection";
 import getCollectionItems from "../../firestoreQuery/getCollectionItems";
-import { useCartState } from "../cart/CartState";
 
 const WishListContext = createContext()
 
 
 export const WishListState = ({ children }) => {
     const [user, dispatch] = useUserState()
-    const { addCart } = useCartState()
     const addWish = async (product) => {
         console.log(product);
         const targetId = product.productId;
@@ -38,11 +36,11 @@ export const WishListState = ({ children }) => {
 
     const deleteWishItem = async (product) => {
         try {
-            console.log("deleteWishItem state->", product);
+            // console.log("deleteWishItem state->", product);
             const targetCartId = product?.productId
             const filteredCart = user?.wishList?.filter(obj => obj?.productId !== targetCartId);
             await deleteFromSubcollection("users", "wishList", product.id)
-            console.log("wishfilteredCart", filteredCart);
+            // console.log("wishfilteredCart", filteredCart);
             dispatch({
                 ...user,
                 type: 'SET_USER',

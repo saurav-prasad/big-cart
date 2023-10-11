@@ -7,15 +7,13 @@ import Cart from '../cart/Cart';
 import googleLogin from '../../login';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import db from '../../firebase';
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { useUserState } from '../../context/UserState';
 import getCollectionItems from '../../firestoreQuery/getCollectionItems';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import sliceString from '../../sliceString/sliceString';
-import getRealTimeSubcollection from '../../firestoreQuery/getRealTimeSubcolletion';
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
-import { FavoriteBorderRounded, FavoriteRounded } from '@mui/icons-material';
-import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { FavoriteRounded } from '@mui/icons-material';
+import { Menu, Transition } from '@headlessui/react'
 
 const category = [
   {
@@ -126,6 +124,26 @@ function Navbar() {
 
 
   const userName = userDetails?.name
+
+  // user data
+  const getTestUser = async () => {
+    const docRef = doc(db, "users", "tWvcMP4vebyvflbekbF0");
+    const docSnap = await getDoc(docRef);
+    console.log(docSnap.data());
+    if (docSnap.exists()) {
+      localStorage.setItem('uid', docSnap.data().uid)
+      dispatch({
+        type: "SET_USER",
+        userDetails: docSnap.data().userDetails,
+        cart: await getCollectionItems(docSnap.data().userDetails.uid, "cart"),
+        wishList: await getCollectionItems(docSnap.data().userDetails.uid, "wishList"),
+      })
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }
+
   return (
     <>
       <nav className='navbar flexCenter' >
@@ -197,9 +215,15 @@ function Navbar() {
                 </Menu.Items>
               </Transition>
             </Menu> :
-            <span className='cursorPointer flexCenter rounded-lg text-white bg-gray-700 hover:bg-gray-900 hover:text-white navbarUser transition' onClick={loginUser}>
-              Sign In
-            </span>
+            <div className='flexCenter'>
+              {/* <button className='cursorPointer flexCenter rounded-lg text-white bg-gray-700 hover:bg-gray-900 hover:text-white navbarUser transition' onClick={loginUser}>
+                Test user
+              </button> */}
+              <button onClick={getTestUser} class="cursorPointer flexCenter rounded-lg text-white bg-gray-700 hover:bg-gray-900 hover:text-white navbarUser transition">Test user</button>
+              <span className='cursorPointer ml-2 flexCenter rounded-lg text-white bg-gray-700 hover:bg-gray-900 hover:text-white navbarUser transition' onClick={loginUser}>
+                Sign In
+              </span>
+            </div>
           }
           <span className='cursorPointer navbarOrder rounded-lg transition text-gray-200 hover:bg-gray-700 hover:text-white '>
             <Link to='/order'>Orders</Link>
@@ -221,12 +245,12 @@ function Navbar() {
           className='navbarSidebar'>
           <CloseRoundedIcon className='navbarClose' onClick={() => setNav(false)} />
           <ul>
-            <li><strong>Top Categories</strong></li>
+            <li><strong>👇Top Categories</strong></li>
             {
               category.map(data => <li onClick={() => setNav(false)} ><Link to={data.href}><p>{data.name}</p></Link></li>)
             }
-            <li onClick={() => setNav(false)}><p><strong><Link to='/wishlist'>WishList</Link></strong></p></li>
-            <li onClick={() => setNav(false)}><p><strong><Link to='/order'>My Orders</Link></strong></p></li>
+            <li onClick={() => setNav(false)}><p><strong><Link to='/wishlist'>❤️ WishList</Link></strong></p></li>
+            <li onClick={() => setNav(false)}><p><strong><Link to='/order'>🔖 My Orders</Link></strong></p></li>
           </ul>
         </div>
         <div
