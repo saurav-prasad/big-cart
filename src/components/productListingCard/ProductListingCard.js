@@ -6,16 +6,17 @@ import currencyFormatter from '../../currencyFormatter/currencyFormatter';
 import sliceString from '../../sliceString/sliceString';
 import Alrt from '../alrt/Alrt';
 import { useWishListState } from '../../context/wishList/WishListState';
+import { useUserState } from '../../context/UserState';
 
 function Card({ product }) {
     const { addWish } = useWishListState()
-
+    const [{ userDetails }] = useUserState()
     const navigate = useNavigate()
     const [alert, setAlert] = useState(null)
 
     const addToWishlist = (e) => {
         e.preventDefault()
-        localStorage?.getItem('uid') ? addData() : showAlert({ status: true, text: 'Sign-in first', type: 'error' })
+        userDetails?.uid ? addData() : showAlert({ status: true, text: 'Sign-in first', type: 'error' })
     }
     const addData = () => {
         addWish(product)

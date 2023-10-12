@@ -36,7 +36,7 @@ export function Checkout() {
             currency: "INR",
             name: "Big Cart",
             description: "Big Cart order payment",
-            image: "https://effectiv.ai/wp-content/uploads/2023/03/BigCart-Logo.svg",
+            image: "./bigcart512.png",
             order_id: data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
             // callback_url: "https://razorpayapi.vercel.app/api/verifypayment",
             handler: async function () {
@@ -88,7 +88,7 @@ export function Checkout() {
                 deleteDoc(doc.ref);
             });
 
-            console.log('Collection deleted successfully.');
+            // console.log('Collection deleted successfully.');
         } catch (error) {
             console.error('Error deleting collection:', error);
         }

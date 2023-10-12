@@ -20,7 +20,7 @@ export default function Cart({ setCart }) {
   )
 
   useEffect(() => {
-    if (userDetails) {
+    if (userDetails?.uid) {
       // console.log(cart);
       setData(cart)
     }
@@ -75,8 +75,8 @@ export default function Cart({ setCart }) {
 
                       <div className="mt-8">
                         <div className="flow-root">
-                          <ul role="list" className="-my-6 divide-y divide-gray-200">
-                            {(userDetails && data?.length > 0) ? data ? data.map((product) => (
+                          <ul className="-my-6 divide-y divide-gray-200">
+                            {(userDetails?.uid && data?.length > 0) ? data ? data?.map((product) => (
                               <CartCard key={product.id} product={product} setOpen={setOpen} />
                             )) : <Loader /> : <div style={{ flexDirection: 'column' }} className='flexCenter'>
                               <img style={{ objectFit: 'contain' }} alt='Empty Cart' src='https://img.freepik.com/premium-vector/shopping-cart-with-cross-mark-wireless-paymant-icon-shopping-bag-failure-paymant-sign-online-shopping-vector_662353-912.jpg' />
@@ -94,7 +94,7 @@ export default function Cart({ setCart }) {
                       </div>
                       <div className="mt-6" >
                         <Link
-                          to={(localStorage.getItem('uid') && data?.length !== 0) && '/checkout'}
+                          to={(userDetails?.uid && data?.length !== 0) && '/checkout'}
                           onClick={() => setOpen(false)}
                           className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                         >

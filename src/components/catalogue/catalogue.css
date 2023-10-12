@@ -1,0 +1,67 @@
+.catalogue {
+    max-width: 1212px;
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 70px;
+}
+
+.catalogueContainer {
+    display: grid;
+    grid-template-rows: repeat(2, auto);
+    gap: 12px;
+}
+
+.catalogueBox {
+    display: flex;
+}
+
+.catalogueImg {
+    object-fit: cover;
+    height: 20rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: filter 200ms ease;
+    width: 100%;
+}
+
+.catalogueTxt {
+    font-size: 2.2rem;
+
+}
+
+.catalogueImg:hover {
+    filter: brightness(0.8);
+}
+
+.catalogueImgA {
+    width: 60%;
+}
+
+.catalogueImgB {
+    width: 40%;
+}
+
+@media (max-width:600px) {
+    .catalogueImgA {
+        width: 50%;
+    }
+
+    .catalogueImgB {
+        width: 50%;
+    }
+}
+
+@media (max-width:1200px) {
+    .catalogue {
+        padding: 0 12px;
+    }
+
+    .catalogueTxt {
+        /* display: none; */
+        font-size: 1.5rem;
+    }
+
+    .catalogueImg {
+        height: 17rem;
+    }
+}

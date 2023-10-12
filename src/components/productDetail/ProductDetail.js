@@ -9,6 +9,7 @@ import Alrt from '../alrt/Alrt';
 import { FavoriteRounded } from '@mui/icons-material';
 import { useCartState } from '../../context/cart/CartState';
 import { useWishListState } from '../../context/wishList/WishListState';
+import { useUserState } from '../../context/UserState';
 
 
 export default function ProductDetail() {
@@ -20,6 +21,7 @@ export default function ProductDetail() {
     const [product, setProduct] = useState({})
     const [qnt, setQnt] = useState(1)
     const params = useParams()
+    const [{ userDetails }] = useUserState()
 
     useEffect(() => {
         const filteredProducts = products?.filter((data) => {
@@ -34,11 +36,11 @@ export default function ProductDetail() {
     }, [products, params.productid])
 
     const addToWishList = () => {
-        localStorage?.getItem('uid') ? addToWish() : showAlert({ status: true, text: 'Sign-in first', type: 'error' })
+        userDetails?.uid ? addToWish() : showAlert({ status: true, text: 'Sign-in first', type: 'error' })
     }
     const addToCart = (e) => {
         e.preventDefault()
-        localStorage?.getItem('uid') ? getData() : showAlert({ status: true, text: 'Sign-in first', type: 'error' })
+        userDetails?.uid ? getData() : showAlert({ status: true, text: 'Sign-in first', type: 'error' })
     }
     const addToWish = () => {
         addWish(product)
@@ -85,7 +87,7 @@ export default function ProductDetail() {
                                             {product?.discountPrice && `₹${currencyFormatter(product?.discountPrice)}`}
                                         </span>
                                     </div>
-                                    <FavoriteRounded onClick={addToWishList}  className='cardWish cursor-pointer' />
+                                    <FavoriteRounded onClick={addToWishList} className='cardWish cursor-pointer' />
                                 </div>
                             </div>
                             <div className="space-s-4 3xl:pr-48 flex items-center gap-2 border-b border-gray-300 py-8  md:pr-0 lg:pr-0 2xl:pr-0">

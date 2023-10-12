@@ -39,7 +39,7 @@ export const WishListState = ({ children }) => {
             // console.log("deleteWishItem state->", product);
             const targetCartId = product?.productId
             const filteredCart = user?.wishList?.filter(obj => obj?.productId !== targetCartId);
-            await deleteFromSubcollection("users", "wishList", product.id)
+            await deleteFromSubcollection("users", user.userDetails.uid, "wishList", product.id)
             // console.log("wishfilteredCart", filteredCart);
             dispatch({
                 ...user,

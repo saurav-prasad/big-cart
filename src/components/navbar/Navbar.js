@@ -131,7 +131,7 @@ function Navbar() {
     const docSnap = await getDoc(docRef);
     console.log(docSnap.data());
     if (docSnap.exists()) {
-      localStorage.setItem('uid', docSnap.data().uid)
+      // localStorage.setItem('uid', docSnap.data().uid)
       dispatch({
         type: "SET_USER",
         userDetails: docSnap.data().userDetails,

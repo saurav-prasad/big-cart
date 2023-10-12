@@ -1,13 +1,13 @@
 import { useEffect, } from 'react';
 import './App.css';
 import Home from './components/home/Home';
-import {  doc, getDoc,  } from 'firebase/firestore';
+import { doc, getDoc, } from 'firebase/firestore';
 import db from './firebase';
 import { useUserState } from './context/UserState';
 import getCollectionItems from './firestoreQuery/getCollectionItems';
 import getProducts from './firestoreQuery/getProducts';
 import { useProductState } from './context/products/ProductState';
-import {  RouterProvider, createBrowserRouter, } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, } from 'react-router-dom';
 import ProductListing from './components/productListing/ProductListing';
 import ProductDetail from './components/productDetail/ProductDetail';
 import WishList from './components/wishList/WishList';
@@ -15,6 +15,7 @@ import { ErrorPage } from './components/404Page/ErrorPage';
 import { Checkout } from './components/checkout/Checkout';
 import { Order } from './components/order/Order';
 import Profile from './components/profile/Profile';
+import Catalogue from './components/catalogue/Catalogue';
 
 const category = ['phones', 'laptop', 'clothing', 'camera']
 
@@ -70,7 +71,10 @@ function App() {
       children: [
         {
           path: "/",
-          element: <ProductListing />,
+          element: <>
+          <Catalogue/>
+            <ProductListing />
+          </>,
 
         },
         {

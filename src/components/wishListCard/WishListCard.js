@@ -5,6 +5,7 @@ import sliceString from '../../sliceString/sliceString'
 import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import { useWishListState } from '../../context/wishList/WishListState'
 import { useCartState } from '../../context/cart/CartState'
+import currencyFormatter from '../../currencyFormatter/currencyFormatter';
 
 function WishListCard({ product, showAlert }) {
     const navigate = useNavigate()
@@ -16,7 +17,7 @@ function WishListCard({ product, showAlert }) {
         showAlert({ status: true, text: 'Item added to cart', type: 'success' });
         addCart({ ...product, qnt: 1 });
     }
-    
+
     const removeFromWishList = () => {
         showAlert({ status: true, text: 'Item removed from WishList', type: 'success' });
         // deleteWishItem(product);
@@ -33,6 +34,12 @@ function WishListCard({ product, showAlert }) {
             />
             <FavoriteTwoToneIcon onClick={() => removeFromWishList()} fontSize='medium' className='absolute right-2 top-2 cardWish cursor-pointer' />
             <div className="p-4">
+                <div className="text-heading mt-2 mb-2 pr-2 text-base font-bold md:pr-0 md:text-xl lg:pr-2 lg:text-2xl 2xl:pr-0 2xl:text-lg">
+                    ₹{currencyFormatter(product?.price)}
+                    <span className="font-segoe pl-2 text-sm text-gray-400 line-through md:text-base lg:text-lg xl:text-xl">
+                        {product?.discountPrice && `₹${currencyFormatter(product?.discountPrice)}`}
+                    </span>
+                </div>
                 <h1 onClick={() => { navigate(`/detail/${product.productId}`) }} className="inline-flex items-center text-lg font-semibold">{sliceString(product.name, 20)}</h1>
                 <p onClick={() => { navigate(`/detail/${product.productId}`) }} className="mt-3 text-sm text-gray-600">
                     {sliceString(product.description, 50)}

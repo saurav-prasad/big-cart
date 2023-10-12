@@ -23,7 +23,7 @@ export const CartState = ({ children }) => {
                 const updatedCart = user?.cart?.map(obj =>
                     obj.productId === targetId ? { ...obj, qnt: product?.qnt + obj.qnt } : obj
                 );
-                const docref = doc(db, "users", localStorage.getItem("uid"), "cart", foundObject?.id);
+                const docref = doc(db, "users", user?.userDetails?.uid, "cart", foundObject?.id);
                 await updateDoc(docref, { qnt: foundObject?.qnt + product?.qnt })
                 // console.log("updatedCart", updatedCart);
                 // console.log("wishlist from cartstate 29", user.wishList);
@@ -65,7 +65,7 @@ export const CartState = ({ children }) => {
                 type: 'SET_USER',
                 cart: filteredCart,
             })
-            deleteFromSubcollection("users", "cart", product.id)
+            deleteFromSubcollection("users", user.userDetails.uid, "cart", product.id)
             // console.log(filteredCart);
         } catch (error) {
             console.log(error);
@@ -85,7 +85,7 @@ export const CartState = ({ children }) => {
                 type: "SET_USER",
                 cart: updatedCart
             })
-            const docref = await doc(db, "users", localStorage.getItem("uid"), "cart", product?.id);
+            const docref = await doc(db, "users", user?.userDetails?.uid, "cart", product?.id);
             await updateDoc(docref, { qnt: qnt })
         } catch (error) {
             console.log(error);
