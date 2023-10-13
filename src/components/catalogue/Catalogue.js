@@ -6,12 +6,12 @@ function Catalogue() {
 
     return (
         <div className='catalogue'>
-            <div className='catalogueContainer '>
+            <div className='catalogueContainer'>
                 <div className='catalogueBox'>
                     <div className='catalogueImgA mr-1.5' >
                         <Link to='category/clothing' className='relative'>
                             <img className='catalogueImg ' src="https://img.freepik.com/free-photo/shop-clothing-clothes-shop-hanger-modern-shop-boutique_1150-8886.jpg" alt="" />
-                            <span className='catalogueTxt font-sans z-10 text-white font-bold absolute bottom-5'>Clothing</span>
+                            <span className='catalogueTxt font-sans text-white font-bold absolute bottom-5'>Clothing</span>
                         </Link>
                     </div>
                     <div className='catalogueImgB ml-1.5'>
@@ -25,13 +25,13 @@ function Catalogue() {
                     <div className='catalogueImgB mr-1.5' >
                         <Link to='category/laptop' className='relative'>
                             <img className='catalogueImg ' src="https://www.91-cdn.com/hub/wp-content/uploads/2022/07/Top-laptop-brands-in-India.jpg" alt="" />
-                            <span className='catalogueTxt font-sans z-10 text-white font-bold absolute bottom-5'>Laptop</span>
+                            <span className='catalogueTxt font-sans text-white font-bold absolute bottom-5'>Laptop</span>
                         </Link>
                     </div>
                     <div className='catalogueImgA ml-1.5'>
                         <Link to='category/camera' className='relative'>
                             <img className='catalogueImg' src="https://www.epiphan.com/wp-content/uploads/2019/03/choosing-a-live-streaming-camera_Main.jpg" alt="" />
-                            <span className='catalogueTxt font-sans z-10 text-white font-bold absolute bottom-5'>Camera</span>
+                            <span className='catalogueTxt font-sans text-white font-bold absolute bottom-5'>Camera</span>
                         </Link>
                     </div>
                 </div>
