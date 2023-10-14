@@ -5,14 +5,6 @@ import { useProductState } from '../../context/products/ProductState'
 import { useParams } from 'react-router-dom'
 import Skeletonn from '../skeleton/Skeleton'
 
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControll from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-
 function ProductListing() {
 
     const [{ products },] = useProductState()
@@ -27,12 +19,15 @@ function ProductListing() {
 
     const filterProducts = (data) => {
         if (params.categoryname) {
-            setProduct(data?.filter((data) => {
+            const filteredData = data?.filter((data) => {
                 return data.category === params.categoryname
-            }))
+            })
+            setProduct(filteredData)
+            return filteredData
         }
         else {
             setProduct(data)
+            return data
         }
     }
 
@@ -51,11 +46,12 @@ function ProductListing() {
             filterProducts(products)
         }
     };
+    const [preValue, setPreValue] = useState(0)
+
     const filterByWords = (value) => {
         const filterValue = value.toLowerCase()
-        console.log(filterValue.length);
-
-        if (filterValue.length > 1) {
+        setSelectedValue(false)
+        if (filterValue.length >= 1 && filterValue.length > preValue) {
             setProduct(
                 product?.filter((e) => {
                     const a = e.name.toLowerCase()
@@ -63,24 +59,30 @@ function ProductListing() {
                     return a.includes(filterValue) || b.includes(filterValue)
                 })
             )
+            setPreValue(filterValue.length)
+        }
+        else if (filterValue.length < preValue) {
+            const newData = filterProducts(products)
+            newData && setProduct(newData?.filter((e) => {
+                const a = e.name.toLowerCase()
+                const b = e.description.toLowerCase()
+                return a.includes(filterValue) || b.includes(filterValue)
+            }))
+            setPreValue(filterValue.length)
         }
         else if (filterValue.length === 0) {
             filterProducts(products)
         }
 
     }
-    // const a = products?.filter((e) => {
-    //     const a = e.name.toLowerCase()
-    //     return a.includes('shirt')
-    // })
-    // console.log(a);
+
     return (
         <div className="bg-white">
             <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                 <h2 className="mt-8 text-3xl  mb-12 font-bold tracking-tight text-gray-900"  >{params?.categoryname?.toUpperCase()}</h2>
                 <h2 className="mt-8 text-3xl  mb-12 font-bold tracking-tight text-gray-900" >
                     {!params.categoryname && "🌟Our Top Products🌟"}</h2>
-                <div className='flex justify-between'>
+                <div className='flex justify-between productlistingFilters mb-4'>
                     <div className='flex mb-7'>
                         <span className='mr-2'>Sort by price :</span>
                         <label className='mr-4 cursor-pointer'>
@@ -105,14 +107,22 @@ function ProductListing() {
                         </label>
                     </div>
                     <input
-                        className="flex h-10 max-w-25 rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                        placeholder='Search products here'
+                        className="productlistingFiltersWordFilter flex h-10 rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                        placeholder='🔎 Search products here...'
                         onChange={(e) => filterByWords(e.target.value)} type="text" />
                 </div>
                 {product ?
-                    <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-8">
-                        {product?.map((product) => <Card key={product.key} product={product} />)}
-                    </div> :
+
+                    <>
+                        {
+                            product.length === 0 ?
+                                <img className='mx-auto object-contain max-w-sm' src='https://www.sterisonline.com//assets/img/No_Product_Found.png' alt='Product not found!' /> :
+                                <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-8">
+                                    {product?.map((product) => <Card key={product.key} product={product} />)}
+                                </div>
+                        }
+                    </>
+                    :
                     // <Loader />
                     <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-8">
                         {Array.from({ length: 20 }).map((_) =>

@@ -1,0 +1,14 @@
+@media (max-width:850px) {
+    .productlistingFilters {
+        flex-direction: column-reverse;
+    }
+
+    .productlistingFiltersWordFilter {
+        margin-bottom: 20px;
+    }
+
+}
+
+.productlistingFiltersWordFilter {
+    min-width: 200px;
+}
