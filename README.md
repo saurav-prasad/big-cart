@@ -1,43 +1,82 @@
-<div align='center'><img src='https://github.com/saurav-prasad/big-cart/assets/70149386/c9675773-86f6-47bd-9e05-0fe5e62ba372'/></div>
-
-<h2>About the project</h2>
-
-<p>With a focus on simplicity and clean design, this app prioritizes user experience, making it easy for customers to find and purchase the necessary products they need.</p>
+# E-Commerce Project
+![bigcart512](https://github.com/saurav-prasad/big-cart/assets/70149386/2e79176f-698b-4a5d-9b28-04721c0a4847)
 
 
-👉 Live Demo: <a href='https://big-cart.vercel.app'>Ecommerce Demo</a>
+## Table of Contents
+- [Introduction](#ntroduction)
+- [Tech Stack](#tech-stack)
+- [Screenshots](#screenshots)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
-<h3>Build with:</h3>
+## Introduction
 
-» Vanilla CSS <br>
-» React JS
+With a focus on simplicity and clean design, this app prioritizes user experience, making it easy for customers to find and purchase the necessary products they need.
+## Tech Stack
 
-<h2>Screenshots of the Project 📸</h2>
-<br>
-<h3 align='center'>Home Page 🏡</h3>
+This project was built using the following technologies and tools:
 
-<div align='center'>
-<img src='https://github.com/saurav-prasad/big-cart/assets/70149386/e7f9637d-bd12-4f87-b2ab-907cd9a8da43'/>
-</div>
+- Frontend:
+  - HTML
+  - CSS
+  - JavaScript
+  - ReactJS
+  - Material UI
+  
+
+- Backend:
+  - Firebase
+
+- Authentication:
+  - Firebase Authentication
+
+- Payment Processing:
+  - Razorpay Payment Gateway
+
+- Hosting & Deployment:
+  - Vercel
+
+- Version Control:
+  - Git
+  - GitHub
+
+## Screenshots
+
+<h1 align='center'>Homepage</h1>
+![homepage](https://github.com/saurav-prasad/big-cart/assets/70149386/6fe7abab-ad9a-4271-964e-d1bc67894620)
+
+<h1 align='center'>Product Listing</h1>
+![Screenshot 2023-10-26 130820](https://github.com/saurav-prasad/big-cart/assets/70149386/d56fe9e9-ac79-4ee1-b235-870b670c3dc4)
 
 
-<br><br>
-<h3 align='center'>Categories Page 👇</h3>
 
-<div align='center'>
-<img src='https://user-images.githubusercontent.com/105128267/213868668-55c03494-0835-43e0-9cb1-429b9a243a65.png'/>
+## Features
 
-<br>
-<br>
-<h3 align='center'>Product Page 🎁</h3>
+List some of the key features of your e-commerce app:
 
-<div align='center'>
-<img src='https://user-images.githubusercontent.com/105128267/213868690-5737cead-a56e-4500-88ff-d182426ce072.png'/>
+- User registration and authentication
+- Product catalog with search and filter options
+- Shopping cart functionality
+- Secure payment processing with Stripe
+- Order history and tracking
+- Admin dashboard for managing products and orders
 
-<br>
-<br>
-<h3 align='center'>Shopping Cart 🛒</h3>
+## Installation
 
-<div align='center'>
-<img src='https://user-images.githubusercontent.com/105128267/213868718-6760d6de-9060-406f-816d-f9b317bb0e0c.png'/>
-</div>
+Provide instructions for setting up and running your project locally. Include any prerequisites, environment setup, and installation steps.
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/ecommerce-project.git
+
+# Navigate to the project folder
+cd ecommerce-project
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm start
