@@ -80,8 +80,7 @@ Provide instructions for setting up and running your project locally. Include an
 
 ```bash
 # Clone the repository
-git clone https://github.com/saurav-prasad/big-cart
-
+git clone https://github.com/saurav-prasad/big-cart.git
 
 # Install dependencies
 npm install
