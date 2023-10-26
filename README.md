@@ -1,6 +1,7 @@
 # E-Commerce Project
 ![bigcart512](https://github.com/saurav-prasad/big-cart/assets/70149386/2e79176f-698b-4a5d-9b28-04721c0a4847)
 
+# Live Link : https://big-cart.vercel.app/
 
 ## Table of Contents
 - [Introduction](#ntroduction)
@@ -46,23 +47,32 @@ This project was built using the following technologies and tools:
 ## Screenshots
 
 <h1 align='center'>Homepage</h1>
-![homepage](https://github.com/saurav-prasad/big-cart/assets/70149386/6fe7abab-ad9a-4271-964e-d1bc67894620)
+<img src='https://github.com/saurav-prasad/big-cart/assets/70149386/6fe7abab-ad9a-4271-964e-d1bc67894620'/>
 
 <h1 align='center'>Product Listing</h1>
-![Screenshot 2023-10-26 130820](https://github.com/saurav-prasad/big-cart/assets/70149386/d56fe9e9-ac79-4ee1-b235-870b670c3dc4)
+<img src='https://github.com/saurav-prasad/big-cart/assets/70149386/d56fe9e9-ac79-4ee1-b235-870b670c3dc4'/>
 
+<h1 align='center'>Cart</h1>
+<img src='https://github.com/saurav-prasad/big-cart/assets/70149386/a506209b-dcd1-45a7-8572-1ad977e1c132' />
 
+<h1 align='center'>Checkout</h1>
+<img src='https://github.com/saurav-prasad/big-cart/assets/70149386/788f10b5-917d-4da6-84b1-cd00eb6a23f3' />
+
+<h1 align='center'>Whishlist</h1>
+<img src='https://github.com/saurav-prasad/big-cart/assets/70149386/4f8f7840-6a58-47c5-9f35-2d979af184d7' />
+<h1 align='center'>Payment</h1>
+<img src='https://github.com/saurav-prasad/big-cart/assets/70149386/5e9cd1fe-6078-4967-831e-238491ec35b0'/>
 
 ## Features
+
 
 List some of the key features of your e-commerce app:
 
 - User registration and authentication
 - Product catalog with search and filter options
 - Shopping cart functionality
-- Secure payment processing with Stripe
-- Order history and tracking
-- Admin dashboard for managing products and orders
+- Secure payment processing with Razorpay
+- Order history
 
 ## Installation
 
@@ -70,10 +80,8 @@ Provide instructions for setting up and running your project locally. Include an
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/ecommerce-project.git
+git clone https://github.com/saurav-prasad/big-cart
 
-# Navigate to the project folder
-cd ecommerce-project
 
 # Install dependencies
 npm install
