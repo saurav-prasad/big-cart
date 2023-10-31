@@ -1,6 +1,6 @@
 # E-Commerce Project
 ![bigcart512](https://github.com/saurav-prasad/big-cart/assets/70149386/2e79176f-698b-4a5d-9b28-04721c0a4847)
-
+<h1>Big-Cart</h1>
 # Live Link : https://big-cart.vercel.app/
 
 ## Table of Contents
