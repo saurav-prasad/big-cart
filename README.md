@@ -1,70 +1,86 @@
-# Getting Started with Create React App
+# E-Commerce Project
+![bigcart512](https://github.com/saurav-prasad/big-cart/assets/70149386/2e79176f-698b-4a5d-9b28-04721c0a4847)
+<h1>Big-Cart</h1>
+# Live Link : https://big-cart.vercel.app/
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of Contents
+- [Introduction](#ntroduction)
+- [Tech Stack](#tech-stack)
+- [Screenshots](#screenshots)
+- [Features](#features)
+- [Installation](#installation)
 
-## Available Scripts
+## Introduction
 
-In the project directory, you can run:
+With a focus on simplicity and clean design, this app prioritizes user experience, making it easy for customers to find and purchase the necessary products they need.
+## Tech Stack
 
-### `npm start`
+This project was built using the following technologies and tools:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Frontend:
+  - HTML
+  - CSS
+  - JavaScript
+  - ReactJS
+  - Material UI
+  
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Backend:
+  - Firebase
 
-### `npm test`
+- Authentication:
+  - Firebase Authentication
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Payment Processing:
+  - Razorpay Payment Gateway
 
-### `npm run build`
+- Hosting & Deployment:
+  - Vercel
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Version Control:
+  - Git
+  - GitHub
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Screenshots
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<h1 align='center'>Homepage</h1>
+<img src='https://github.com/saurav-prasad/big-cart/assets/70149386/6fe7abab-ad9a-4271-964e-d1bc67894620'/>
 
-### `npm run eject`
+<h1 align='center'>Product Listing</h1>
+<img src='https://github.com/saurav-prasad/big-cart/assets/70149386/d56fe9e9-ac79-4ee1-b235-870b670c3dc4'/>
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<h1 align='center'>Cart</h1>
+<img src='https://github.com/saurav-prasad/big-cart/assets/70149386/a506209b-dcd1-45a7-8572-1ad977e1c132' />
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<h1 align='center'>Checkout</h1>
+<img src='https://github.com/saurav-prasad/big-cart/assets/70149386/788f10b5-917d-4da6-84b1-cd00eb6a23f3' />
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+<h1 align='center'>Whishlist</h1>
+<img src='https://github.com/saurav-prasad/big-cart/assets/70149386/4f8f7840-6a58-47c5-9f35-2d979af184d7' />
+<h1 align='center'>Payment</h1>
+<img src='https://github.com/saurav-prasad/big-cart/assets/70149386/5e9cd1fe-6078-4967-831e-238491ec35b0'/>
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Features
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+List some of the key features of your e-commerce app:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- User registration and authentication
+- Product catalog with search and filter options
+- Shopping cart functionality
+- Secure payment processing with Razorpay
+- Order history
 
-### Code Splitting
+## Installation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Provide instructions for setting up and running your project locally. Include any prerequisites, environment setup, and installation steps.
 
-### Analyzing the Bundle Size
+```bash
+# Clone the repository
+git clone https://github.com/saurav-prasad/big-cart.git
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# Install dependencies
+npm install
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Start the development server
+npm start
