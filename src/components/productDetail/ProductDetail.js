@@ -10,6 +10,7 @@ import { FavoriteRounded } from '@mui/icons-material';
 import { useCartState } from '../../context/cart/CartState';
 import { useWishListState } from '../../context/wishList/WishListState';
 import { useUserState } from '../../context/UserState';
+import { serverTimestamp } from 'firebase/firestore';
 
 
 export default function ProductDetail() {
@@ -43,7 +44,7 @@ export default function ProductDetail() {
         userDetails?.uid ? getData() : showAlert({ status: true, text: 'Sign-in first', type: 'error' })
     }
     const addToWish = () => {
-        addWish(product)
+        addWish({ ...product, date: serverTimestamp() })
         showAlert({ status: true, text: 'Item added to WishList', type: 'success' })
     }
     const getData = () => {

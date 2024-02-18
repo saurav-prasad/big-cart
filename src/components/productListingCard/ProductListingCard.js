@@ -7,6 +7,7 @@ import sliceString from '../../sliceString/sliceString';
 import Alrt from '../alrt/Alrt';
 import { useWishListState } from '../../context/wishList/WishListState';
 import { useUserState } from '../../context/UserState';
+import { serverTimestamp } from 'firebase/firestore';
 
 function Card({ product }) {
     const { addWish } = useWishListState()
@@ -19,7 +20,7 @@ function Card({ product }) {
         userDetails?.uid ? addData() : showAlert({ status: true, text: 'Sign-in first', type: 'error' })
     }
     const addData = () => {
-        addWish(product)
+        addWish({ ...product, date: serverTimestamp() })
         showAlert({ status: true, text: 'Item added to WishList', type: 'success' })
     }
     const showAlert = (data) => {

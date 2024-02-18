@@ -84,10 +84,10 @@ function ProductListing() {
                     {!params.categoryname && "🌟Our Top Products🌟"}</h2>
                 <div className='flex justify-between productlistingFilters mb-4'>
                     <div className='flex mb-7'>
-                        <span className='mr-2'>Sort by price :</span>
-                        <label className='mr-4 cursor-pointer'>
+                        <span className='mr-2'>Sort price: </span>
+                        <label className='mr-2 cursor-pointer flexCenter'>
                             <input
-                                className='mr-2 cursor-pointer text-2xl'
+                                className='mr-1 cursor-pointer text-2xl'
                                 type="radio"
                                 value="left"
                                 checked={selectedValue === 'left'}
@@ -95,9 +95,9 @@ function ProductListing() {
                             />
                             Low to High
                         </label>
-                        <label className='cursor-pointer'>
+                        <label className='cursor-pointer flexCenter'>
                             <input
-                                className='mr-2 cursor-pointer text-2xl'
+                                className='mr-1 cursor-pointer text-2xl'
                                 type="radio"
                                 value="right"
                                 checked={selectedValue === 'right'}

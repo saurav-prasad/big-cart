@@ -10,8 +10,8 @@ function WishList() {
     const [alert, setAlert] = useState(null)
 
     useEffect(() => {
-        setdata(wishList)
-        console.log(wishList);
+        const sortedList = wishList?.sort((item1, item2) => item2?.date?.seconds - item1?.date?.seconds)
+        setdata(sortedList)
     }, [wishList])
 
     const showAlert = (data) => {
@@ -23,7 +23,7 @@ function WishList() {
     return (
         <div className='pt-7'>
             <h1 className="text-2xl font-bold text-black ">Your Wishlist ❤️</h1>
-            <div className={(userDetails && data?.length > 0) ? "mx-auto grid w-full max-w-7xl  space-y-4 px-2 py-10 md:grid-cols-2 items-end md:gap-6 md:space-y-0 lg:grid-cols-4" : ''}>
+            <div className={(userDetails && data?.length > 0) ? "mx-auto grid w-full max-w-7xl  space-y-4 px-2 py-10 sm:grid-cols-2 items-end sm:gap-6 md:space-y-0 lg:grid-cols-4" : ''}>
                 {(userDetails && data?.length > 0) ? data ? data?.map((product) => (
                     <WishListCard showAlert={showAlert} product={product} />
                 )) : <Loader /> : <div style={{ flexDirection: 'column' }} className='flexCenter mt-12'>

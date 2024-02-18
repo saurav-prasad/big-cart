@@ -12,11 +12,9 @@ const WishListContext = createContext()
 export const WishListState = ({ children }) => {
     const [user, dispatch] = useUserState()
     const addWish = async (product) => {
-        console.log(product);
         const targetId = product.productId;
         const foundObject = user?.wishList?.find(obj => obj?.productId === targetId);
         try {
-            console.log(!foundObject);
             if (!foundObject) {
                 const docRef = doc(db, "users", user.userDetails.uid);
                 const docSnap = await getDoc(docRef);
