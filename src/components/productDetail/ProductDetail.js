@@ -25,6 +25,10 @@ export default function ProductDetail() {
     const [{ userDetails }] = useUserState()
 
     useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Optional: Adds smooth scrolling animation
+        })
         const filteredProducts = products?.filter((data) => {
             return data.productId === params.productid;
         });
