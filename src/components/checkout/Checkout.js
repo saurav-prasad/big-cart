@@ -25,56 +25,64 @@ export function Checkout() {
     let flag = false;
 
     const handleCheckout = async (amount) => {
-        const { data: { key } } = await axios.get('https://razorpayapi.vercel.app/api/getkey')
-        const { data } = await axios.post('https://razorpayapi.vercel.app/api/checkout', {
-            amount: amount
-        })
-        if (key && data) { setOpen(false) }
-        const options = {
-            key: key, // Enter the Key ID generated from the Dashboard
-            amount: data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-            currency: "INR",
-            name: "Big Cart",
-            description: "Big Cart order payment",
-            image: "./bigcart512.png",
-            order_id: data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            // callback_url: "https://razorpayapi.vercel.app/api/verifypayment",
-            handler: async function () {
-                let orderDetails = {
-                    "orderId": `#${data.id.slice(6)}`,
-                    "orderStatus": "Confirmed",
-                    "total": amount,
-                    "date": serverTimestamp()
+        try {
+            // const { data: { key } } = await axios.get('http://localhost:5001/api/getkey')
+            const { data: { key } } = await axios.get('https://razorpayapi.vercel.app/api/getkey')
+            // console.log(key);
+            const { data } = await axios.post('https://razorpayapi.vercel.app/api/checkout', {
+                // const { data } = await axios.post('http://localhost:5001/api/checkout', {
+                amount: amount
+            })
+            // console.log(data);
+            if (key && data) { setOpen(false) }
+            const options = {
+                key: key, // Enter the Key ID generated from the Dashboard
+                amount: data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                currency: "INR",
+                name: "Big Cart",
+                description: "Big Cart order payment",
+                image: "./bigcart512.png",
+                order_id: data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                // callback_url: "https://razorpayapi.vercel.app/api/verifypayment",
+                handler: async function () {
+                    let orderDetails = {
+                        "orderId": `#${data.id.slice(6)}`,
+                        "orderStatus": "Confirmed",
+                        "total": amount,
+                        "date": serverTimestamp()
+                    }
+                    await addToSubCollection("orders", user.userDetails.uid, "order", { orderDetails, products: products, address })
+                    await addToSubCollection("users", user.userDetails.uid, "orders", { orderDetails, products: products, address })
+                    // for (const iterator of user.cart) {
+                    //     // console.log("iterator1", iterator);
+                    //     await deleteFromSubcollection("users", "cart", iterator.id)
+                    // }
+                    deleteCollection(`users/${user.userDetails.uid}/cart`)
+                    navigate('/order')
+                    dispatch({
+                        ...user,
+                        type: 'SET_USER',
+                        cart: []
+                    })
+                },
+                theme: {
+                    color: "#3399cc"
                 }
-                await addToSubCollection("orders", user.userDetails.uid, "order", { orderDetails, products: products, address })
-                await addToSubCollection("users", user.userDetails.uid, "orders", { orderDetails, products: products, address })
-                // for (const iterator of user.cart) {
-                //     // console.log("iterator1", iterator);
-                //     await deleteFromSubcollection("users", "cart", iterator.id)
-                // }
-                deleteCollection(`users/${user.userDetails.uid}/cart`)
-                navigate('/order')
-                dispatch({
-                    ...user,
-                    type: 'SET_USER',
-                    cart: []
-                })
-            },
-            theme: {
-                color: "#3399cc"
             }
+            const rzp1 = window.Razorpay(options);
+            rzp1.open();
+            rzp1.on('payment.failed', function (response) {
+                alert(response.error.code);
+                alert(response.error.description);
+                alert(response.error.source);
+                alert(response.error.step);
+                alert(response.error.reason);
+                alert(response.error.metadata.order_id);
+                alert(response.error.metadata.payment_id);
+            });
+        } catch (error) {
+            console.log(error);
         }
-        const rzp1 = window.Razorpay(options);
-        rzp1.open();
-        rzp1.on('payment.failed', function (response) {
-            alert(response.error.code);
-            alert(response.error.description);
-            alert(response.error.source);
-            alert(response.error.step);
-            alert(response.error.reason);
-            alert(response.error.metadata.order_id);
-            alert(response.error.metadata.payment_id);
-        });
     }
 
 

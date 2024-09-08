@@ -129,7 +129,7 @@ function Navbar() {
   const getTestUser = async () => {
     const docRef = doc(db, "users", "tWvcMP4vebyvflbekbF0");
     const docSnap = await getDoc(docRef);
-    console.log(docSnap.data());
+    // console.log(docSnap.data());
     if (docSnap.exists()) {
       // localStorage.setItem('uid', docSnap.data().uid)
       dispatch({
@@ -156,7 +156,7 @@ function Navbar() {
             <KeyboardBackspaceRoundedIcon fontSize='large' className='cursorPointer navbarArrow text-bold' onClick={() => navigate(-1)} /> :
             <h1 className='navTitle'><Link to='/'>Big-Cart</Link></h1>}
           <ul className='flexCenter navLists'>
-            {category.map(data => <li className='navList cursorPointer rounded-lg text-gray-200 hover:bg-gray-700 hover:text-white transition'><Link to={data.href}>{data.name}</Link></li>)}
+            {category.map((data, i) => <li key={i} className='navList cursorPointer rounded-lg text-gray-200 hover:bg-gray-700 hover:text-white transition'><Link to={data.href}>{data.name}</Link></li>)}
           </ul>
 
 
@@ -219,7 +219,7 @@ function Navbar() {
               {/* <button className='cursorPointer flexCenter rounded-lg text-white bg-gray-700 hover:bg-gray-900 hover:text-white navbarUser transition' onClick={loginUser}>
                 Test user
               </button> */}
-              <button onClick={getTestUser} class="cursorPointer flexCenter rounded-lg text-white bg-gray-700 hover:bg-gray-900 hover:text-white navbarUser transition">Test user</button>
+              <button onClick={getTestUser} className="cursorPointer flexCenter rounded-lg text-white bg-gray-700 hover:bg-gray-900 hover:text-white navbarUser transition">Test user</button>
               <span className='cursorPointer ml-2 flexCenter rounded-lg text-white bg-gray-700 hover:bg-gray-900 hover:text-white navbarUser transition' onClick={loginUser}>
                 Sign In
               </span>
@@ -247,7 +247,7 @@ function Navbar() {
           <ul>
             <li><strong>👇Top Categories</strong></li>
             {
-              category.map(data => <li onClick={() => setNav(false)} ><Link to={data.href}><p>{data.name}</p></Link></li>)
+              category.map((data, i) => <li key={i} onClick={() => setNav(false)} ><Link to={data.href}><p>{data.name}</p></Link></li>)
             }
             <li onClick={() => setNav(false)}><p><strong><Link to='/wishlist'>❤️ WishList</Link></strong></p></li>
             <li onClick={() => setNav(false)}><p><strong><Link to='/order'>🔖 My Orders</Link></strong></p></li>
@@ -260,7 +260,7 @@ function Navbar() {
           className='navbarSidebarBackground'
           onClick={() => setNav(false)} />
       </nav>
-      {cart && <Cart setCart={setCart} />}
+        {cart && <Cart setCart={setCart} />}
     </>
   )
 }

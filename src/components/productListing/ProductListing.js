@@ -118,15 +118,15 @@ function ProductListing() {
                             product.length === 0 ?
                                 <img className='mx-auto object-contain max-w-sm' src='https://www.sterisonline.com//assets/img/No_Product_Found.png' alt='Product not found!' /> :
                                 <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-8">
-                                    {product?.map((product) => <Card key={product.key} product={product} />)}
+                                    {product?.map((product,i) => <Card key={i} product={product} />)}
                                 </div>
                         }
                     </>
                     :
                     // <Loader />
                     <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-8">
-                        {Array.from({ length: 20 }).map((_) =>
-                            <Skeletonn />
+                        {Array.from({ length: 20 }).map((p,i) =>
+                            <Skeletonn key={i} />
                         )}
 
                     </div>

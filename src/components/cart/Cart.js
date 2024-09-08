@@ -25,8 +25,8 @@ export default function Cart({ setCart }) {
       setData(cart)
     }
   }, [user, cart])
-
-  setCart(open)
+  
+  // // setCart(open)
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -64,7 +64,7 @@ export default function Cart({ setCart }) {
                           <button
                             type="button"
                             className="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
-                            onClick={() => setOpen(false)}
+                            onClick={() => setCart(false)}
                           >
                             <span className="absolute -inset-0.5" />
                             <span className="sr-only">Close panel</span>
