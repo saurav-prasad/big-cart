@@ -27,9 +27,9 @@ function Breadcrumbs() {
                         </svg>
                     </div>
                 </li>
-                {pathnames.map((breadcrumb) => (
+                {pathnames.map((breadcrumb,i) => (
                     (pathnames[(pathnames.length - 1)] !== breadcrumb) &&
-                    <li>
+                    <li key={i}>
                         <div className="flex items-center">
                             {/* <a  className="mr-2 text-sm font-medium text-gray-900"> */}
                             <span className="mr-2 text-sm font-medium text-gray-900">

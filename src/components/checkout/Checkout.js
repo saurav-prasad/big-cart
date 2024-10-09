@@ -26,11 +26,11 @@ export function Checkout() {
 
     const handleCheckout = async (amount) => {
         try {
-            // const { data: { key } } = await axios.get('http://localhost:5001/api/getkey')
+            //const { data: { key } } = await axios.get('http://localhost:5001/api/getkey')
             const { data: { key } } = await axios.get('https://razorpayapi.vercel.app/api/getkey')
             // console.log(key);
             const { data } = await axios.post('https://razorpayapi.vercel.app/api/checkout', {
-                // const { data } = await axios.post('http://localhost:5001/api/checkout', {
+                //const { data } = await axios.post('http://localhost:5001/api/checkout', {
                 amount: amount
             })
             // console.log(data);
@@ -113,6 +113,8 @@ export function Checkout() {
         if (userDetails) {
             setProducts(user?.cart)
             user?.cart?.length === 0 && navigate("/")
+        }else{
+            navigate("/")
         }
     }, [user])
 

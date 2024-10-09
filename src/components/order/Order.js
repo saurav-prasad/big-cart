@@ -2,22 +2,35 @@ import React, { useEffect, useState } from 'react'
 import getCollectionItems from '../../firestoreQuery/getCollectionItems'
 import OrderCard from './orderCard/OrderCard'
 import { useUserState } from '../../context/UserState'
+import { useNavigate } from 'react-router-dom'
 
 
 export const Order = () => {
     const [data, setdata] = useState([])
     const [user,] = useUserState()
     const [{ userDetails }, dispatch] = useUserState()
+    const navigate = useNavigate()
 
     useEffect(() => {
         async function fetchData() {
-            if (user.userDetails) {
-                const a = await getCollectionItems(userDetails.uid, 'orders')
-                a?.sort((item1, item2) => item2.orderDetails.date.seconds - item1.orderDetails.date.seconds)
-                setdata(a)
+            try {
+
+                if (user.userDetails) {
+                    const a = await getCollectionItems(userDetails.uid, 'orders')
+                    a?.sort((item1, item2) => item2.orderDetails.date.seconds - item1.orderDetails.date.seconds)
+                    setdata(a)
+                }
+            } catch (error) {
+                console.log(error)
             }
         }
         fetchData()
+    }, [user])
+
+    useEffect(() => {
+        if (!userDetails) {
+            navigate("/")
+        }
     }, [user])
 
     return (
@@ -31,7 +44,7 @@ export const Order = () => {
                     <h1 className='mb-10 font-medium text-3xl'>No orders yet.</h1>
                     <img alt='no-orders' className='object-contain' src='https://mir-s3-cdn-cf.behance.net/projects/404/8412d0104101523.Y3JvcCwxMDI0LDgwMCwwLDcw.jpg' />
                 </div> :
-                data?.map((arr) => <OrderCard orderDetails={arr?.orderDetails} address={arr?.address} products={arr?.products} />
+                data?.map((arr, i) => <OrderCard key={i} orderDetails={arr?.orderDetails} address={arr?.address} products={arr?.products} />
                 )}
         </div>
     )

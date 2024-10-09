@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, memo, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Loader from '../loader/Loader';
@@ -8,16 +8,15 @@ import './cart.css'
 import { Link } from 'react-router-dom';
 import CartCard from './CartCard';
 
-export default function Cart({ setCart }) {
+const Cart = ({ setCart }) => {
   const [{ userDetails, cart }] = useUserState()
   const [user] = useUserState()
   const [data, setData] = useState([])
   const [open, setOpen] = useState(true)
 
-  let total = 0
-  data?.map((product) =>
-    total = total + product.price * product.qnt
-  )
+  const total = data?.reduce((acc, product) => acc + product.price * product.qnt, 0)
+
+
 
   useEffect(() => {
     if (userDetails?.uid) {
@@ -25,8 +24,10 @@ export default function Cart({ setCart }) {
       setData(cart)
     }
   }, [user, cart])
-  
-  // // setCart(open)
+
+  useEffect(() => {
+    setCart(open)
+  },[open])
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -94,7 +95,7 @@ export default function Cart({ setCart }) {
                       </div>
                       <div className="mt-6" >
                         <Link
-                          to={(userDetails?.uid && data?.length !== 0) && '/checkout'}
+                          to={(userDetails?.uid && data?.length > 0) && '/checkout'}
                           onClick={() => setOpen(false)}
                           className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                         >
@@ -125,3 +126,5 @@ export default function Cart({ setCart }) {
     </Transition.Root>
   )
 }
+
+export default memo(Cart)

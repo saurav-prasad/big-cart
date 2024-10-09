@@ -49,6 +49,7 @@ function Navbar() {
   const [userInfo, setUserInfo] = useState()
   const navigate = useNavigate()
   const location = useLocation()
+
   const loginUser = async () => {
     // Example usage
     (async () => {
@@ -61,6 +62,7 @@ function Navbar() {
       }
     })();
   }
+
   const logOutUser = () => {
     dispatch({
       type: 'UNSET_USER'
@@ -72,49 +74,55 @@ function Navbar() {
   useEffect(() => {
     async function fetchData() {
       if (userInfo) {
-        const docRef = doc(db, "users", userInfo.uid);
-        const docSnap = await getDoc(docRef)
+        try {
 
-        if (docSnap.exists()) {
-          console.log(docSnap.data().userDetails.phoneNumber);
-          const docData = docSnap.data().userDetails;
-          dispatch({
-            type: 'SET_USER',
-            userDetails: {
-              name: userInfo.displayName,
-              email: userInfo.email,
-              photo: userInfo.photoURL,
-              uid: userInfo.uid,
-              phoneNumber: docSnap.data().userDetails.phoneNumber,
-            },
-            adderss: docSnap?.data()?.address,
-            cart: await getCollectionItems(docData.uid, "cart")
-          })
-          localStorage.setItem('uid', docData.uid)
+          const docRef = doc(db, "users", userInfo.uid);
+          const docSnap = await getDoc(docRef)
 
-        }
-        else {
-          // docSnap.data() will be undefined in this case
-          console.log("No such document!");
-          await setDoc(doc(db, "users", userInfo.uid), {
-            userDetails: {
-              name: userInfo.displayName,
-              email: userInfo.email,
-              photo: userInfo.photoURL,
-              uid: userInfo.uid,
-            }
-          });
-          dispatch({
-            type: 'SET_USER',
-            userDetails: {
-              name: userInfo.displayName,
-              email: userInfo.email,
-              photo: userInfo.photoURL,
-              uid: userInfo.uid,
-            },
-            cart: await getCollectionItems(userInfo.uid, "cart")
-          })
-          localStorage.setItem('uid', userInfo.uid)
+          if (docSnap.exists()) {
+            console.log(docSnap.data());
+            const docData = docSnap.data().userDetails;
+            dispatch({
+              type: 'SET_USER',
+              userDetails: {
+                name: userInfo.displayName,
+                email: userInfo.email,
+                photo: userInfo.photo,
+                uid: userInfo.uid,
+                phoneNumber: docSnap.data().userDetails.phoneNumber,
+              },
+              adderss: docSnap?.data()?.address,
+              cart: await getCollectionItems(docData.uid, "cart")
+            })
+            localStorage.setItem('uid', docData.uid)
+
+          }
+          else {
+            // docSnap.data() will be undefined in this case
+            console.log("No such document!");
+            await setDoc(doc(db, "users", userInfo.uid), {
+              userDetails: {
+                name: userInfo.displayName,
+                email: userInfo.email,
+                photo: userInfo.photo,
+                uid: userInfo.uid,
+              }
+            });
+            dispatch({
+              type: 'SET_USER',
+              userDetails: {
+                name: userInfo.displayName,
+                email: userInfo.email,
+                photo: userInfo.photo,
+                uid: userInfo.uid,
+              },
+              cart: await getCollectionItems(userInfo.uid, "cart")
+            })
+            localStorage.setItem('uid', userInfo.uid)
+          }
+
+        } catch (error) {
+          console.log(error)
         }
       }
     }
@@ -127,20 +135,27 @@ function Navbar() {
 
   // user data
   const getTestUser = async () => {
-    const docRef = doc(db, "users", "tWvcMP4vebyvflbekbF0");
-    const docSnap = await getDoc(docRef);
-    // console.log(docSnap.data());
-    if (docSnap.exists()) {
-      // localStorage.setItem('uid', docSnap.data().uid)
-      dispatch({
-        type: "SET_USER",
-        userDetails: docSnap.data().userDetails,
-        cart: await getCollectionItems(docSnap.data().userDetails.uid, "cart"),
-        wishList: await getCollectionItems(docSnap.data().userDetails.uid, "wishList"),
-      })
-    } else {
-      // docSnap.data() will be undefined in this case
-      console.log("No such document!");
+    
+    try {
+
+      const docRef = doc(db, "users", "tWvcMP4vebyvflbekbF0");
+      const docSnap = await getDoc(docRef);
+      // console.log(docSnap.data());
+      if (docSnap.exists()) {
+        // localStorage.setItem('uid', docSnap.data().uid)
+        dispatch({
+          type: "SET_USER",
+          userDetails: docSnap.data().userDetails,
+          cart: await getCollectionItems(docSnap.data().userDetails.uid, "cart"),
+          wishList: await getCollectionItems(docSnap.data().userDetails.uid, "wishList"),
+        })
+      } else {
+        // docSnap.data() will be undefined in this case
+        console.log("No such document!");
+      }
+
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -260,7 +275,7 @@ function Navbar() {
           className='navbarSidebarBackground'
           onClick={() => setNav(false)} />
       </nav>
-        {cart && <Cart setCart={setCart} />}
+      {cart && <Cart setCart={setCart} />}
     </>
   )
 }
